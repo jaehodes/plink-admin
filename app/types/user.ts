@@ -1,0 +1,41 @@
+// 회원 관련 타입 정의
+
+export interface User {
+  id: number;            // 회원 고유번호
+  uid: string;          // 회원 id
+  midx: number;         // 매체사번호
+  mname: string;        // 매체사명 (Base64 인코딩)
+  memo: string;         // 관리자 메모 (Base64 인코딩)
+  uname: string;        // 유저 닉네임 (Base64 인코딩)
+  adid: string;         // 이용자 adid
+  isBlocked: boolean;    // 차단 여부 (true: 차단, false: 정상)
+}
+
+export type UserStatus = 'all' | 'normal' | 'blocked';
+
+export interface UsersResponse {
+  ret: number;
+  data: User[];
+  total: number;  // 전체 페이지 수
+}
+
+export interface UserNotification {
+  id: number;
+  title: string;       // Base64 인코딩
+  message: string;     // Base64 인코딩
+  isRead: boolean;
+  createdAt: string;
+  readAt?: string;
+  sentBy?: string;     // 송신자 (Base64 인코딩)
+}
+
+// 상태 라벨
+export const USER_BLOCKED_LABELS: Record<string, string> = {
+  'false': '정상',
+  'true': '차단',
+};
+
+export const USER_BLOCKED_COLORS: Record<string, string> = {
+  'false': 'bg-green-100 text-green-800',
+  'true': 'bg-red-100 text-red-800',
+};
