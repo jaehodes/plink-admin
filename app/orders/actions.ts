@@ -82,8 +82,7 @@ export async function getOrderDetail(orderId: string): Promise<OrderDetailResult
 export async function cancelOrder(orderId: string): Promise<ActionResult> {
   const response = await externalApiPost<CancelApiResponse>(
     `/api/admin-app/orders/${orderId}/cancel`,
-    {},
-    { saveRefreshedToken: true }
+    {}
   );
 
   if (response.error) {
@@ -103,8 +102,7 @@ export async function cancelOrder(orderId: string): Promise<ActionResult> {
 export async function uploadThumbnail(orderId: string, thumbnail: string): Promise<ActionResult> {
   const response = await externalApiPost<CancelApiResponse>(
     `/api/admin-app/orders/${orderId}/thumbnail`,
-    { thumbnail },
-    { saveRefreshedToken: true }
+    { thumbnail }
   );
 
   if (response.error) {
@@ -133,8 +131,7 @@ export async function replaceQuizzes(
 
   const response = await externalApiPost<CancelApiResponse>(
     `/api/admin-app/orders/${orderId}/quizzes/replace`,
-    { quizzes: encoded },
-    { saveRefreshedToken: true }
+    { quizzes: encoded }
   );
 
   if (response.error) return { success: false, message: response.error };

@@ -1,24 +1,9 @@
-import { Suspense } from 'react';
 import Link from 'next/link';
-import { checkAuth, getAdminName } from './lib/auth-server';
+import { requireAuth, getAdminName } from './lib/auth-server';
 import Layout from './components/Layout';
-import AccessDenied from './components/AccessDenied';
-import HomeClient from './components/HomeClient';
-import DevTokenDisplay from './components/DevTokenDisplay';
 
 export default async function Home() {
-  const isAuthenticated = await checkAuth();
-
-  if (!isAuthenticated) {
-    return (
-      <>
-        <Suspense fallback={null}>
-          <HomeClient />
-        </Suspense>
-        <AccessDenied />
-      </>
-    );
-  }
+  await requireAuth();
 
   const adminName = await getAdminName();
 
@@ -35,9 +20,6 @@ export default async function Home() {
 
   return (
     <Layout>
-      <Suspense fallback={null}>
-        <HomeClient />
-      </Suspense>
       <div className="max-w-4xl mx-auto space-y-6">
         <div>
           <h1 className="text-2xl font-bold text-slate-800">
@@ -58,10 +40,6 @@ export default async function Home() {
             </Link>
           ))}
         </div>
-
-        {process.env.NEXT_PUBLIC_NODE_ENV !== 'production' && (
-          <DevTokenDisplay />
-        )}
       </div>
     </Layout>
   );

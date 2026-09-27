@@ -2,7 +2,6 @@
 
 import { useState, useCallback } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useAuth } from '../contexts/AuthContext';
 import {
   Execution,
   ExecutionType,
@@ -73,7 +72,6 @@ interface ExecutionsClientProps {
 
 export default function ExecutionsClient({ initialExecutions: executions, initialTotal: total, initialError: error, period }: ExecutionsClientProps) {
   const router = useRouter();
-  const { refreshToken } = useAuth();
   const searchParams = useSearchParams();
 
   const [selectedExecutionId, setSelectedExecutionId] = useState<string | null>(null);
@@ -202,7 +200,7 @@ export default function ExecutionsClient({ initialExecutions: executions, initia
         <div className="flex items-center gap-2">
           <h1 className="text-2xl font-bold text-gray-900">수행목록</h1>
           <button
-            onClick={() => { refreshToken(); router.refresh(); }}
+            onClick={() => router.refresh()}
             className="p-1.5 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-lg transition-colors"
             title="새로고침"
           >

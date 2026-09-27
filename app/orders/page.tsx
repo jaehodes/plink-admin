@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Layout from "../components/Layout";
-import AccessDenied from "../components/AccessDenied";
-import { checkAuth } from "../lib/auth-server";
+import { requireAuth } from "../lib/auth-server";
 import { externalApiGet } from "../lib/external-api";
 import { Order } from "../types/order";
 import OrdersClient from "./OrdersClient";
@@ -45,11 +44,7 @@ interface PageProps {
 }
 
 export default async function OrdersPage({ searchParams }: PageProps) {
-  const isAuthenticated = await checkAuth();
-
-  if (!isAuthenticated) {
-    return <AccessDenied />;
-  }
+  await requireAuth();
 
   const params = await searchParams;
   const period: PeriodFilter | undefined = isValidPeriod(params.period) ? params.period : undefined;

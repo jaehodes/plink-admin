@@ -22,8 +22,7 @@ export async function createCategory(
 ): Promise<ActionResult> {
   const response = await externalApiPost<ApiResponse>(
     '/api/admin-app/faq/categories',
-    { id, label },
-    { saveRefreshedToken: true }
+    { id, label }
   );
 
   if (response.error) return { success: false, message: response.error };
@@ -40,8 +39,7 @@ export async function updateCategory(
 ): Promise<ActionResult> {
   const response = await externalApiPut<ApiResponse>(
     `/api/admin-app/faq/categories/${id}`,
-    { label },
-    { saveRefreshedToken: true }
+    { label }
   );
 
   if (response.error) return { success: false, message: response.error };
@@ -54,8 +52,7 @@ export async function updateCategory(
  */
 export async function deleteCategory(id: string): Promise<ActionResult> {
   const response = await externalApiDelete<ApiResponse>(
-    `/api/admin-app/faq/categories/${encodeURIComponent(id)}`,
-    { saveRefreshedToken: true }
+    `/api/admin-app/faq/categories/${encodeURIComponent(id)}`
   );
 
   if (response.error) return { success: false, message: response.error };
@@ -73,8 +70,7 @@ export async function createFaq(
 ): Promise<ActionResult> {
   const response = await externalApiPost<ApiResponse>(
     '/api/admin-app/faq',
-    { question: EncodeBase64(question), answer: EncodeBase64(answer), category },
-    { saveRefreshedToken: true }
+    { question: EncodeBase64(question), answer: EncodeBase64(answer), category }
   );
 
   if (response.error) return { success: false, message: response.error };
@@ -93,8 +89,7 @@ export async function updateFaq(
 ): Promise<ActionResult> {
   const response = await externalApiPut<ApiResponse>(
     `/api/admin-app/faq/${faqId}`,
-    { question: EncodeBase64(question), answer: EncodeBase64(answer), category },
-    { saveRefreshedToken: true }
+    { question: EncodeBase64(question), answer: EncodeBase64(answer), category }
   );
 
   if (response.error) return { success: false, message: response.error };
@@ -107,8 +102,7 @@ export async function updateFaq(
  */
 export async function deleteFaq(faqId: number): Promise<ActionResult> {
   const response = await externalApiDelete<ApiResponse>(
-    `/api/admin-app/faq/${faqId}`,
-    { saveRefreshedToken: true }
+    `/api/admin-app/faq/${faqId}`
   );
 
   if (response.error) return { success: false, message: response.error };

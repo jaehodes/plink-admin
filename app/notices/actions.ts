@@ -23,8 +23,7 @@ export async function createNotice(
 ): Promise<ActionResult> {
   const response = await externalApiPost<ApiResponse>(
     '/api/admin-app/notices',
-    { title: EncodeBase64(title), content: EncodeBase64(content), isImportant },
-    { saveRefreshedToken: true }
+    { title: EncodeBase64(title), content: EncodeBase64(content), isImportant }
   );
 
   if (response.error) return { success: false, message: response.error };
@@ -43,8 +42,7 @@ export async function updateNotice(
 ): Promise<ActionResult> {
   const response = await externalApiPut<ApiResponse>(
     `/api/admin-app/notices/${noticeId}`,
-    { title: EncodeBase64(title), content: EncodeBase64(content), isImportant },
-    { saveRefreshedToken: true }
+    { title: EncodeBase64(title), content: EncodeBase64(content), isImportant }
   );
 
   if (response.error) return { success: false, message: response.error };
@@ -57,8 +55,7 @@ export async function updateNotice(
  */
 export async function deleteNotice(noticeId: number): Promise<ActionResult> {
   const response = await externalApiDelete<ApiResponse>(
-    `/api/admin-app/notices/${noticeId}`,
-    { saveRefreshedToken: true }
+    `/api/admin-app/notices/${noticeId}`
   );
 
   if (response.error) return { success: false, message: response.error };
@@ -72,8 +69,7 @@ export async function deleteNotice(noticeId: number): Promise<ActionResult> {
 export async function toggleNoticeActive(noticeId: number, isActive: boolean): Promise<ActionResult> {
   const response = await externalApiPut<ApiResponse>(
     `/api/admin-app/notices/${noticeId}/active`,
-    { isActive },
-    { saveRefreshedToken: true }
+    { isActive }
   );
 
   if (response.error) return { success: false, message: response.error };

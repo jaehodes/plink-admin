@@ -32,8 +32,7 @@ export async function getUserStatus(uid: string): Promise<{ success: boolean; is
 export async function toggleUserBlock(uid: string, isBlocked: boolean): Promise<ActionResult> {
   const response = await externalApiPost<ApiResponse>(
     '/api/admin-app/users/toggle-block',
-    { uid, isBlocked },
-    { saveRefreshedToken: true }
+    { uid, isBlocked }
   );
 
   if (response.error) return { success: false, message: response.error };
@@ -47,8 +46,7 @@ export async function toggleUserBlock(uid: string, isBlocked: boolean): Promise<
 export async function updateUserMemo(uid: string, memo: string): Promise<ActionResult> {
   const response = await externalApiPost<ApiResponse>(
     '/api/admin-app/users/memo',
-    { uid, memo: EncodeBase64(memo) },
-    { saveRefreshedToken: true }
+    { uid, memo: EncodeBase64(memo) }
   );
 
   if (response.error) return { success: false, message: response.error };
@@ -83,8 +81,7 @@ export async function getUserNotifications(uid: string): Promise<{ success: bool
 export async function sendNotification(uid: string, title: string, message: string): Promise<ActionResult> {
   const response = await externalApiPost<ApiResponse>(
     '/api/admin-app/users/send-notification',
-    { uid, title: EncodeBase64(title), message: EncodeBase64(message) },
-    { saveRefreshedToken: true }
+    { uid, title: EncodeBase64(title), message: EncodeBase64(message) }
   );
 
   if (response.error) return { success: false, message: response.error };

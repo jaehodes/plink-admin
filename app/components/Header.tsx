@@ -1,56 +1,14 @@
 'use client';
 
-import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { logout } from '../lib/auth-actions';
 
-export default function Header() {
+interface HeaderProps {
+  adminName: string | null;
+}
+
+export default function Header({ adminName }: HeaderProps) {
   const env = process.env.NEXT_PUBLIC_NODE_ENV;
-  const [remainingTime, setRemainingTime] = useState<string>('');
-  const [expiryTime, setExpiryTime] = useState<number | null>(null);
-  const [adminName, setAdminName] = useState<string | null>(null);
-
-  useEffect(() => {
-    const fetchTokenExpiry = async () => {
-      try {
-        const response = await fetch('/api/auth/token-expiry');
-        if (response.ok) {
-          const data = await response.json();
-          if (data.exp) setExpiryTime(data.exp * 1000);
-          if (data.name) setAdminName(data.name);
-        }
-      } catch (error) {
-        console.error('Failed to fetch token expiry:', error);
-      }
-    };
-
-    const initialFetch = setTimeout(fetchTokenExpiry, 500);
-    return () => clearTimeout(initialFetch);
-  }, []);
-
-  useEffect(() => {
-    if (!expiryTime) return;
-
-    const updateTimer = () => {
-      const now = Date.now();
-      const diff = expiryTime - now;
-
-      if (diff <= 0) {
-        setRemainingTime('만료됨');
-        return;
-      }
-
-      const hours = Math.floor(diff / (1000 * 60 * 60));
-      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-
-      setRemainingTime(`${hours}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`);
-    };
-
-    updateTimer();
-    const interval = setInterval(updateTimer, 1000);
-
-    return () => clearInterval(interval);
-  }, [expiryTime]);
 
   const getEnvBadge = () => {
     if (env === 'development') {
@@ -89,12 +47,16 @@ export default function Header() {
           )}
         </div>
         <div className="flex items-center gap-1.5 sm:gap-2 text-[11px] sm:text-xs text-slate-500 shrink-0">
-          {remainingTime && (
-            <span className="font-mono tabular-nums">{remainingTime}</span>
-          )}
-          {adminName && remainingTime && <span className="text-slate-300 hidden sm:inline">|</span>}
           {adminName && <span className="hidden sm:inline">{adminName}</span>}
           {getEnvBadge()}
+          <form action={logout}>
+            <button
+              type="submit"
+              className="px-2 py-1 rounded-md text-slate-500 hover:text-slate-700 hover:bg-slate-100 transition-colors"
+            >
+              로그아웃
+            </button>
+          </form>
         </div>
       </div>
     </header>

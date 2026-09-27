@@ -35,8 +35,7 @@ export async function batchToggleMissionProblemActive(
 
     const response = await externalApiPost<ApiResponse>(
       '/api/admin-app/missions/toggle-active',
-      body,
-      { saveRefreshedToken: true }
+      body
     );
 
     if (response.data?.ret === 0) {
@@ -129,8 +128,7 @@ export async function toggleMissionProblemActive(
 
   const response = await externalApiPost<ApiResponse>(
     '/api/admin-app/missions/toggle-active',
-    body,
-    { saveRefreshedToken: true }
+    body
   );
 
   if (response.error) return { success: false, message: response.error };

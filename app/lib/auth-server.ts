@@ -1,48 +1,49 @@
 import { cookies } from 'next/headers';
-import { TOKEN_COOKIE_NAME } from '../utils/cookieName';
+import { redirect } from 'next/navigation';
+import { REFRESH_COOKIE_NAME, TOKEN_COOKIE_NAME } from '../utils/cookieName';
+import {
+  accessCookieOptions,
+  decodeTokenPayload,
+  isAccessTokenValid,
+  refreshCookieOptions,
+  type AuthTokens,
+} from './admin-auth';
 
 export async function getTokenPayload(): Promise<Record<string, unknown> | null> {
-  try {
-    const cookieStore = await cookies();
-    const token = cookieStore.get(TOKEN_COOKIE_NAME)?.value;
-    if (!token || token.split('.').length !== 3) return null;
-    return JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString());
-  } catch {
-    return null;
-  }
+  const cookieStore = await cookies();
+  const token = cookieStore.get(TOKEN_COOKIE_NAME)?.value;
+  return token ? decodeTokenPayload(token) : null;
 }
 
 export async function getAdminName(): Promise<string | null> {
   const payload = await getTokenPayload();
-  if (!payload) return null;
-  return (payload.uname || payload.name || payload.username || payload.adminName || null) as string | null;
+  return typeof payload?.uname === 'string' ? payload.uname : null;
 }
 
 export async function checkAuth(): Promise<boolean> {
   const cookieStore = await cookies();
   const token = cookieStore.get(TOKEN_COOKIE_NAME)?.value;
+  return !!token && isAccessTokenValid(token);
+}
 
-  if (!token) {
-    return false;
-  }
+/**
+ * 페이지 진입 시 인증 확인. 대부분 proxy.ts에서 걸러지지만, 만료 경계 등 예외 상황을 위한 안전장치.
+ */
+export async function requireAuth(): Promise<void> {
+  if (!(await checkAuth())) redirect('/login');
+}
 
-  try {
-    // JWT 토큰이 유효한지 간단히 체크 (형식 확인)
-    if (token.split('.').length !== 3) {
-      return false;
-    }
+/** Server Action에서만 호출 가능 (Server Component는 쿠키를 쓸 수 없음) */
+export async function saveTokens(tokens: AuthTokens): Promise<void> {
+  const cookieStore = await cookies();
+  cookieStore.set(TOKEN_COOKIE_NAME, tokens.accessToken, accessCookieOptions(tokens));
+  cookieStore.set(REFRESH_COOKIE_NAME, tokens.refreshToken, refreshCookieOptions());
+}
 
-    // 토큰 만료 시간 체크
-    const payload = JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString());
-    const exp = payload.exp;
-
-    if (!exp || exp * 1000 < Date.now()) {
-      return false;
-    }
-
-    return true;
-  } catch (error) {
-    console.error('Token verification failed:', error);
-    return false;
-  }
+export async function clearTokens(): Promise<string | undefined> {
+  const cookieStore = await cookies();
+  const refreshToken = cookieStore.get(REFRESH_COOKIE_NAME)?.value;
+  cookieStore.delete(TOKEN_COOKIE_NAME);
+  cookieStore.delete(REFRESH_COOKIE_NAME);
+  return refreshToken;
 }

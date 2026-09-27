@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Layout from '../components/Layout';
-import AccessDenied from '../components/AccessDenied';
-import { checkAuth } from '../lib/auth-server';
+import { requireAuth } from '../lib/auth-server';
 
 export const metadata: Metadata = {
   title: '수행 목록 - 플리커 관리자',
@@ -16,11 +15,7 @@ export const metadata: Metadata = {
 };
 
 export default async function ReviewsPage() {
-  const isAuthenticated = await checkAuth();
-
-  if (!isAuthenticated) {
-    return <AccessDenied />;
-  }
+  await requireAuth();
 
   return (
     <Layout>

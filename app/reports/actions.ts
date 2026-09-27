@@ -51,8 +51,7 @@ export async function resolveReport(
 ): Promise<ActionResult> {
   const response = await externalApiPost<ApiResponse>(
     `/api/admin-app/mission-reports/${reportId}/resolve`,
-    { adminNote: EncodeBase64(adminNote), rewardRate: rewardRate || 0 },
-    { saveRefreshedToken: true }
+    { adminNote: EncodeBase64(adminNote), rewardRate: rewardRate || 0 }
   );
 
   if (response.error) return { success: false, message: response.error };
@@ -78,8 +77,7 @@ export async function toggleMissionActive(
 
   const response = await externalApiPost<ApiResponse>(
     '/api/admin-app/missions/toggle-active',
-    body,
-    { saveRefreshedToken: true }
+    body
   );
 
   if (response.error) return { success: false, message: response.error };

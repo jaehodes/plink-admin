@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useAuth } from '../contexts/AuthContext';
 import { useEscRef } from '../hooks/useEscClose';
 import {
   MissionReportSummary,
@@ -115,7 +114,6 @@ export default function ReportsClient({
   period,
 }: ReportsClientProps) {
   const router = useRouter();
-  const { refreshToken } = useAuth();
   const { showToast } = useToast();
   const searchParams = useSearchParams();
   const [customStartDate, setCustomStartDate] = useState(searchParams.get('startDate') || '');
@@ -286,7 +284,7 @@ export default function ReportsClient({
         <div className="flex items-center gap-2">
           <h1 className="text-2xl font-bold text-gray-900">문의 목록</h1>
           <button
-            onClick={() => { refreshToken(); router.refresh(); }}
+            onClick={() => router.refresh()}
             className="p-1.5 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-lg transition-colors"
             title="새로고침"
           >

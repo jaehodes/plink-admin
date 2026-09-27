@@ -2,7 +2,6 @@
 
 import { useState, useCallback } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useAuth } from '../contexts/AuthContext';
 import {
   Order,
   OrderType,
@@ -106,7 +105,6 @@ interface OrdersClientProps {
 
 export default function OrdersClient({ initialOrders: orders, initialTotal: total, initialError: error, period }: OrdersClientProps) {
   const router = useRouter();
-  const { refreshToken } = useAuth();
   const searchParams = useSearchParams();
 
   const [selectedOrderId, setSelectedOrderId] = useState<string | null>(null);
@@ -258,7 +256,7 @@ export default function OrdersClient({ initialOrders: orders, initialTotal: tota
         <div className="flex items-center gap-2">
           <h1 className="text-2xl font-bold text-gray-900">발주 목록</h1>
           <button
-            onClick={() => { refreshToken(); router.refresh(); }}
+            onClick={() => router.refresh()}
             className="p-1.5 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-lg transition-colors"
             title="새로고침"
           >

@@ -2,7 +2,6 @@
 
 import { useState, useMemo } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useAuth } from '../contexts/AuthContext';
 import {
   DashboardData,
   PeriodFilter,
@@ -96,7 +95,6 @@ interface DashboardClientProps {
 
 export default function DashboardClient({ data, error, period }: DashboardClientProps) {
   const router = useRouter();
-  const { refreshToken } = useAuth();
   const searchParams = useSearchParams();
   const [customStartDate, setCustomStartDate] = useState(searchParams.get('startDate') || '');
   const [ordererSearchApplied, setOrdererSearchApplied] = useState('');
@@ -223,7 +221,7 @@ export default function DashboardClient({ data, error, period }: DashboardClient
             <div className="flex items-center gap-2">
               <h1 className="text-xl font-bold text-slate-800">관리자 대시보드</h1>
               <button
-                onClick={() => { refreshToken(); router.refresh(); }}
+                onClick={() => router.refresh()}
                 className="p-1.5 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-lg transition-colors"
                 title="새로고침"
               >
