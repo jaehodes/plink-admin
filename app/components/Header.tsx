@@ -5,10 +5,11 @@ import { logout } from '../lib/auth-actions';
 
 interface HeaderProps {
   adminName: string | null;
+  appEnv: string | undefined;
 }
 
-export default function Header({ adminName }: HeaderProps) {
-  const env = process.env.NEXT_PUBLIC_NODE_ENV;
+export default function Header({ adminName, appEnv }: HeaderProps) {
+  const env = appEnv;
 
   const getEnvBadge = () => {
     if (env === 'development') {

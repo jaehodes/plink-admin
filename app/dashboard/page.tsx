@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Layout from "../components/Layout";
 import { requireAuth } from "../lib/auth-server";
 import { externalApiGet } from "../lib/external-api";
+import { isProductionEnv } from "../lib/app-env";
 import { DashboardData, PeriodFilter } from "../types/dashboard";
 import DashboardClient from "./DashboardClient";
 
@@ -71,7 +72,7 @@ export default async function DashboardPage({ searchParams }: PageProps) {
   return (
     <Layout>
       <div className="max-w-[1100px] mx-auto">
-        <DashboardClient data={dashboardData} error={error} period={period} />
+        <DashboardClient data={dashboardData} error={error} period={period} isProduction={isProductionEnv()} />
       </div>
     </Layout>
   );

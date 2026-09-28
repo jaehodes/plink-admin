@@ -91,9 +91,10 @@ interface DashboardClientProps {
   data: DashboardData | null;
   error: string | null;
   period: PeriodFilter;
+  isProduction: boolean;
 }
 
-export default function DashboardClient({ data, error, period }: DashboardClientProps) {
+export default function DashboardClient({ data, error, period, isProduction }: DashboardClientProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [customStartDate, setCustomStartDate] = useState(searchParams.get('startDate') || '');
@@ -620,7 +621,7 @@ export default function DashboardClient({ data, error, period }: DashboardClient
       </section>
 
       {/* ④ 타입별 + ⑤ 상태별 + 랭커 */}
-      <section className={`grid grid-cols-1 gap-3 ${process.env.NEXT_PUBLIC_NODE_ENV === 'production' ? 'lg:grid-cols-2' : 'lg:grid-cols-[1fr_1fr_200px]'}`}>
+      <section className={`grid grid-cols-1 gap-3 ${isProduction ? 'lg:grid-cols-2' : 'lg:grid-cols-[1fr_1fr_200px]'}`}>
         {/* 타입별 */}
         <div className="bg-white border border-slate-200 rounded-xl p-5">
           <div className="flex items-center gap-2 text-xs font-semibold text-slate-500 mb-4">
@@ -716,7 +717,7 @@ export default function DashboardClient({ data, error, period }: DashboardClient
         </div>
 
         {/* 상위 랭커 (프로덕션 제외) */}
-        {process.env.NEXT_PUBLIC_NODE_ENV !== 'production' && <div className="bg-white border border-slate-200 rounded-xl p-4">
+        {!isProduction && <div className="bg-white border border-slate-200 rounded-xl p-4">
           <p className="text-xs font-semibold text-slate-500 mb-3">🏆 상위 랭커</p>
           <div className="space-y-1">
             {(() => {

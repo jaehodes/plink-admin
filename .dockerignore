@@ -1,0 +1,15 @@
+.git
+.gitignore
+.DS_Store
+**/.DS_Store
+.env*
+.claude
+node_modules
+.next
+docs
+deploy
+*.md
+*.tsbuildinfo
+next-env.d.ts
+Dockerfile
+.dockerignore

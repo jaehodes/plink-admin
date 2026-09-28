@@ -25,14 +25,9 @@ export const metadata: Metadata = {
     address: false,
     telephone: false,
   },
-  metadataBase: new URL(process.env.NEXT_PUBLIC_DOMAIN_URL || 'http://localhost:3000'),
-  alternates: {
-    canonical: "/",
-  },
   openGraph: {
     title: "플리커 관리자",
     description: "플리커 관리자 시스템",
-    url: process.env.NEXT_PUBLIC_DOMAIN_URL || 'http://localhost:3000',
     siteName: "플리커",
     locale: "ko_KR",
     type: "website",
