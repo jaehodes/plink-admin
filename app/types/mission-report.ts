@@ -14,8 +14,6 @@ export interface MissionReportSummary {
   status: ReportStatus;
   createdAt: string;
   resolvedAt?: string;
-  rewardAmount?: number;
-  rewardName?: string;         // Base64
   isReadByUser?: boolean;
   uname?: string;              // Base64
   orderer?: string;            // Base64
@@ -48,7 +46,6 @@ export interface MissionReportDetail extends MissionReportSummary {
   submittedValue?: string;     // Base64
   adminNote?: string;          // Base64
   resolvedBy?: string;         // Base64
-  rewardPerUnit?: number;
   placeName?: string;          // Base64
   placeUrl?: string;
   // quiz1/quiz2 미션

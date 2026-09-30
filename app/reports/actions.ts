@@ -30,7 +30,6 @@ export async function getReportDetail(reportId: number): Promise<{ success: bool
       uname: d.uname ? DecodeBase64(d.uname) : d.uname,
       orderer: d.orderer ? DecodeBase64(d.orderer) : d.orderer,
       mname: d.mname ? DecodeBase64(d.mname) : d.mname,
-      rewardName: d.rewardName ? DecodeBase64(d.rewardName) : d.rewardName,
       placeName: d.placeName ? DecodeBase64(d.placeName) : d.placeName,
       resolvedBy: d.resolvedBy ? DecodeBase64(d.resolvedBy) : d.resolvedBy,
       quiz: d.quiz ? { ...d.quiz, question: DecodeBase64(d.quiz.question), answer: DecodeBase64(d.quiz.answer), reason: d.quiz.reason ? DecodeBase64(d.quiz.reason) : d.quiz.reason } : d.quiz,
@@ -47,11 +46,10 @@ export async function getReportDetail(reportId: number): Promise<{ success: bool
 export async function resolveReport(
   reportId: number,
   adminNote: string,
-  rewardRate?: number,
 ): Promise<ActionResult> {
   const response = await externalApiPost<ApiResponse>(
     `/api/admin-app/mission-reports/${reportId}/resolve`,
-    { adminNote: EncodeBase64(adminNote), rewardRate: rewardRate || 0 }
+    { adminNote: EncodeBase64(adminNote) }
   );
 
   if (response.error) return { success: false, message: response.error };

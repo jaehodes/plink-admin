@@ -25,7 +25,6 @@ function decodeSummary(report: MissionReportSummary): MissionReportSummary {
     uname: report.uname ? DecodeBase64(report.uname) : report.uname,
     orderer: report.orderer ? DecodeBase64(report.orderer) : report.orderer,
     mname: report.mname ? DecodeBase64(report.mname) : report.mname,
-    rewardName: report.rewardName ? DecodeBase64(report.rewardName) : report.rewardName,
     placeName: report.placeName ? DecodeBase64(report.placeName) : report.placeName,
   };
 }

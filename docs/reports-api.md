@@ -60,8 +60,6 @@ GET /api/admin-app/mission-reports
 | status | string | - | 처리 상태 (`pending`, `resolved`) |
 | createdAt | string | - | 접수 일시 (ISO 8601) |
 | resolvedAt | string | - | 처리 완료 일시 (resolved만) |
-| rewardAmount | number | - | 지급된 리워드 양 (resolved만) |
-| rewardName | string | Base64 | 리워드 단위명 |
 | isReadByUser | boolean | - | 유저가 답변을 읽었는지 (resolved만) |
 | uname | string | Base64 | 신고한 사용자 닉네임 |
 | orderer | string | Base64 | 발주사 |
@@ -94,8 +92,6 @@ GET /api/admin-app/mission-reports
       "status": "resolved",
       "createdAt": "2024-01-10T09:00:00Z",
       "resolvedAt": "2024-01-11T14:00:00Z",
-      "rewardAmount": 400,
-      "rewardName": "7LqQ7Iuc",
       "isReadByUser": true,
       "uname": "67CV7KeA7Zi4",
       "orderer": "7Lm07Lm07Jeo7YSw",
@@ -161,15 +157,12 @@ GET /api/admin-app/mission-reports/{id}
 | createdAt | string | - | 공통 | 접수 일시 (ISO 8601) |
 | resolvedAt | string | - | resolved만 | 처리 완료 일시 (ISO 8601) |
 | adminNote | string | Base64 | resolved만 | 관리자 답변 (300자 이내) |
-| rewardAmount | number | - | resolved만 | 지급된 리워드 양 |
 | resolvedBy | string | Base64 | resolved만 | 처리한 관리자 닉네임 |
 | isReadByUser | boolean | - | resolved만 | 유저가 답변을 읽었는지 여부 |
 | uname | string | Base64 | 공통 | 신고한 사용자 닉네임 |
 | orderer | string | Base64 | 공통 | 발주사 |
 | mname | string | Base64 | 공통 | 매체사명 |
 | midx | number | - | 공통 | 매체사 번호 |
-| rewardName | string | Base64 | 공통 | 리워드 단위명 |
-| rewardPerUnit | number | - | 공통 | 리워드 단가 (최대 지급 가능) |
 | placeName | string | Base64 | 공통 | 플레이스명 |
 | placeUrl | string | - | 공통 | 네이버 플레이스 URL |
 | quiz | Quiz | - | quiz1/quiz2만 | 해당 퀴즈 (유저측에서 문제신고된 퀴즈id와 일치한 퀴즈) |
@@ -212,8 +205,6 @@ GET /api/admin-app/mission-reports/{id}
     "orderer": "7Lm07Lm07Jeo7YSw",
     "mname": "7Lm07Lm0",
       "midx": 2,
-    "rewardName": "7LqQ7Iuc",
-    "rewardPerUnit": 500,
     "placeName": "66ee65Gs64KQ65Oc7ZmN64yA7KCA",
     "placeUrl": "https://map.naver.com/p/entry/place/202",
     "quiz": { "id": 1001, "question": "7J20IO2UjOugiOydtOyKpOydmCDsmIHsl4Xsi5zqsITsnYA/", "answer": "MDk6MDAgfiAyMjowMA==" }
@@ -263,12 +254,10 @@ POST /api/admin-app/mission-reports/{id}/resolve
 | 필드 | 타입 | 인코딩 | 필수 | 설명 |
 |------|------|--------|------|------|
 | adminNote | string | Base64 | 필수 | 관리자 답변 (300자 이내, Base64 인코딩하여 전송) |
-| rewardRate | number | - | 선택 | 지급할 리워드 비율 (%, 기본값: 0, 예: 20 = 단가의 20%) |
 
 ```json
 {
-  "adminNote": "7ZmV7J24IOqysOqzvCDtlbTri7kg7KO87LCo7J6l7J20IO2PkOyXheuQmOyWtCDrr7jshZjsnbQg7IiY7KCV65CY7JeI7Iq164uI64ukLg==",
-  "rewardRate": 20
+  "adminNote": "7ZmV7J24IOqysOqzvCDtlbTri7kg7KO87LCo7J6l7J20IO2PkOyXheuQmOyWtCDrr7jshZjsnbQg7IiY7KCV65CY7JeI7Iq164uI64ukLg=="
 }
 ```
 
@@ -288,7 +277,6 @@ POST /api/admin-app/mission-reports/{id}/resolve
 | -1 | 존재하지 않는 신고 | `"신고를 찾을 수 없습니다."` |
 | -1 | 잘못된 상태 전환 | `"접수됨 상태에서만 처리완료로 변경할 수 있습니다."` |
 | -1 | 답변 누락 | `"관리자 답변을 입력해주세요."` |
-| -1 | 리워드 비율 초과 | `"리워드 비율은 100%를 초과할 수 없습니다."` |
 
 ---
 
@@ -353,7 +341,7 @@ POST /api/admin-app/missions/toggle-active
 
 - 기간 필터: 전체 / 오늘 / 어제 / 이번주 / 이번달 / 기간 설정 (기간 설정 시 날짜 범위 직접 입력)
 - 상태 필터: 전체 / 접수됨 / 처리완료
-- 각 항목: 미션유형 뱃지 + 상태 뱃지 + 리워드 뱃지 + 유저 읽음/안읽음 뱃지(처리완료만) + 신고 사유 + 닉네임 + 발주사 + 매체사 + 접수일 + 처리일(처리완료만)
+- 각 항목: 미션유형 뱃지 + 상태 뱃지 + 유저 읽음/안읽음 뱃지(처리완료만) + 신고 사유 + 닉네임 + 발주사 + 매체사 + 접수일 + 처리일(처리완료만)
 - 클릭 시 상세 모달 오픈
 - 페이지당 10건, `total`은 전체 페이지 수
 
@@ -365,12 +353,11 @@ POST /api/admin-app/missions/toggle-active
   - `quiz1`/`quiz2`: 질문/정답 카드 + **문제 비활성화하기 / 활성화하기** 토글 버튼
   - `direction/car`: 검색위치/초성힌트/주차정답 카드 + **문제 비활성화하기 / 활성화하기** 토글 버튼 (비활성화 시 카드 전체 흐려짐)
 - **신고 정보**: 사유 + 제출한 값 (URL이면 새 탭 링크)
-- **메타 정보** (3열 그리드): 신고자, 매체사, 리워드 단위, 리워드 단가, 접수일, 처리일, 처리자(`resolvedBy`), 유저 확인(`isReadByUser`)
+- **메타 정보** (3열 그리드): 신고자, 매체사, 접수일, 처리일, 처리자(`resolvedBy`), 유저 확인(`isReadByUser`)
 - **접수됨 상태**:
   - 답변 입력 (필수, 300자, 글자 수 카운터, 줄바꿈 가능)
-  - 리워드 지급 (선택, 기본값 0, 최대 `rewardPerUnit`)
-  - 처리하기 → 확인 모달 (답변 + 리워드 요약 표시) → 확인 시 처리 완료 API 호출
-- **처리완료 상태**: 지급된 리워드 + 관리자 답변 표시 (줄바꿈 유지) + 유저 확인 여부(읽음/안읽음)
+  - 처리하기 → 확인 모달 (답변 표시) → 확인 시 처리 완료 API 호출
+- **처리완료 상태**: 관리자 답변 표시 (줄바꿈 유지) + 유저 확인 여부(읽음/안읽음)
 
 ---
 
@@ -378,7 +365,7 @@ POST /api/admin-app/missions/toggle-active
 
 ### 문의란?
 
-사용자가 미션 수행 중 문제가 발생했을 때 신고를 제출하는 것입니다. 관리자는 이 신고를 확인하고, 답변을 작성하고, 필요시 리워드를 지급하며, 오류가 있는 퀴즈/주차장 문제를 비활성화할 수 있습니다.
+사용자가 미션 수행 중 문제가 발생했을 때 신고를 제출하는 것입니다. 관리자는 이 신고를 확인하고, 답변을 작성하고, 오류가 있는 퀴즈/주차장 문제를 비활성화할 수 있습니다.
 
 ### 미션 유형별 특성
 
@@ -392,7 +379,6 @@ POST /api/admin-app/missions/toggle-active
 
 > `save`와 `direction/bus`의 제출값은 `https://`로 시작하는 URL입니다. 프론트에서 링크로 표시합니다.
 > `quiz1`/`quiz2`와 `direction/car`의 제출값은 일반 텍스트입니다.
-> **유입미션과 길찾기 미션(자동차/버스 무관)의 리워드 단가는 동일합니다.**
 
 ### 처리 흐름
 
@@ -400,7 +386,6 @@ POST /api/admin-app/missions/toggle-active
 접수됨(pending) ──[관리자 처리]──> 처리완료(resolved)
                       │
                       ├── 답변 작성 (필수, 300자 이내)
-                      ├── 리워드 지급 (선택, 최대 단가까지)
                       ├── 퀴즈 비활성화 (선택, quiz1/quiz2 미션만)
                       └── 주차장 문제 비활성화 (선택, direction/car 미션만)
 ```
@@ -408,7 +393,7 @@ POST /api/admin-app/missions/toggle-active
 1. 사용자가 미션 수행 중 문제를 신고하면 **접수됨(`pending`)** 상태로 등록됩니다.
 2. 관리자가 목록에서 해당 문의를 클릭하면 상세 모달이 열립니다.
 3. 관리자가 미션 정보를 확인하고, 오류가 있는 퀴즈/주차장 문제가 있으면 비활성화합니다.
-4. 답변을 작성하고, 필요시 리워드를 지급한 뒤 **처리하기** 버튼을 누르면 확인 모달이 뜹니다.
+4. 답변을 작성한 뒤 **처리하기** 버튼을 누르면 확인 모달이 뜹니다.
 5. 확인하면 **처리완료(`resolved`)** 상태가 됩니다.
 
 ### 발주사 vs 매체사
@@ -416,13 +401,11 @@ POST /api/admin-app/missions/toggle-active
 - **발주사(`orderer`)**: 미션을 발주한 회사 (예: 플리커코리아, 카카오엔터, 우아한형제들)
 - **매체사(`mname`)**: 미션이 실행되는 플랫폼 (예: 네이버, 카카오, 배민)
 - **매체사 번호(`midx`)**: 매체사 고유 번호
-- **리워드 단위(`rewardName`)**: 매체사마다 다름 (예: N포인트, 캐시, 배민포인트)
-- **리워드 단가(`rewardPerUnit`)**: 매체사 + 미션유형별로 다름. 관리자가 지급할 수 있는 최대 리워드 양
 
 ### Base64 인코딩
 
 다음 필드들은 Base64로 인코딩된 상태로 응답됩니다. 프론트에서 `DecodeBase64`로 디코딩 후 표시합니다.
 
-**조회 응답 (디코딩 필요):** `submittedValue`, `reason`, `adminNote`, `uname`, `orderer`, `mname`, `rewardName`, `placeName`, `resolvedBy`, Quiz의 `question`/`answer`, CarParking의 `parkingAnswer`
+**조회 응답 (디코딩 필요):** `submittedValue`, `reason`, `adminNote`, `uname`, `orderer`, `mname`, `placeName`, `resolvedBy`, Quiz의 `question`/`answer`, CarParking의 `parkingAnswer`
 
 **처리 완료 요청 (인코딩 필요):** `adminNote`

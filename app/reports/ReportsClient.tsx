@@ -37,9 +37,7 @@ function getAdminNoteOptions(report: MissionReportDetail | null): AdminNoteOptio
   }
 
   options.push(
-    { label: '오류 발견 → 리워드 지급', value: '안녕하세요.\n\n해당 문제의 오류가 발견되어 처리했습니다.\n그에 따른 소정의 리워드를 지급해 드리겠습니다.\n\n감사합니다.' },
     { label: '오류 발견', value: '안녕하세요.\n\n해당 문제의 오류가 발견되어 처리했습니다.\n\n감사합니다.' },
-    { label: '서비스 장애 보상 → 리워드 지급', value: '안녕하세요.\n\n서비스 장애가 발생하여 이용에 불편을 드린 점 진심으로 사과드립니다.\n\n불편을 겪으신 것에 대한 작은 보상으로 소정의 리워드를 지급해 드릴 예정입니다.\n\n감사합니다.' },
     { label: '문제 미선택 안내', value: '안녕하세요.\n\n현재 문의 내용만으로는 어떤 문제에서 오류가 발생했는지 확인하기 어렵습니다.\n문제를 신고하실 때는 반드시 문제가 발생한 문제를 선택한 후 신고해 주시기 바랍니다.\n\n감사합니다.' },
     { label: '직접 입력', value: '직접 입력' },
   );
@@ -89,10 +87,6 @@ function isSubmittedValueUrl(report: MissionReportDetail): boolean {
   return false;
 }
 
-function formatReward(amount: number, rewardName?: string): string {
-  return `+${amount.toLocaleString()} ${rewardName ?? '-'}`;
-}
-
 const MISSION_TYPE_COLORS: Record<string, string> = {
   save: 'bg-blue-100 text-blue-700',
   quiz1: 'bg-violet-100 text-violet-700',
@@ -129,7 +123,6 @@ export default function ReportsClient({
 
   const [adminNoteSelect, setAdminNoteSelect] = useState('');
   const [adminNote, setAdminNote] = useState('');
-  const [rewardRate, setRewardRate] = useState<0 | 20 | 50 | 100>(20);
   const [quizEnabled, setQuizEnabled] = useState(true);
   const [parkingEnabled, setParkingEnabled] = useState(true);
 
@@ -249,7 +242,6 @@ export default function ReportsClient({
       setParkingEnabled(result.detail.carParking?.isActive ?? true);
       const options = getAdminNoteOptions(result.detail);
       setAdminNoteSelect(options[0].value);
-      setRewardRate(options[0].value === '직접 입력' ? 0 : 20);
     } else {
       showToast(result.message, 'error');
     }
@@ -259,14 +251,8 @@ export default function ReportsClient({
     if (!selectedReport) return;
     const finalNote = adminNoteSelect === '직접 입력' ? adminNote : adminNoteSelect;
     if (!finalNote.trim()) return;
-    const options = getAdminNoteOptions(selectedReport);
-    const isRewardOption = adminNoteSelect === options[1].value || adminNoteSelect === options[3].value;
-    const isDirect = adminNoteSelect === '직접 입력';
-    const finalRewardRate = (isRewardOption || isDirect) ? rewardRate : 0;
     setIsProcessing(true);
-    const result = await resolveReport(
-      selectedReport.id, finalNote, finalRewardRate,
-    );
+    const result = await resolveReport(selectedReport.id, finalNote);
     setIsProcessing(false);
     if (result.success) {
       showToast(result.message);
@@ -428,11 +414,6 @@ export default function ReportsClient({
                   <span className={`inline-flex px-2 py-0.5 text-xs font-semibold rounded-full ${REPORT_STATUS_COLORS[report.status]}`}>
                     {REPORT_STATUS_LABELS[report.status]}
                   </span>
-                  {report.rewardAmount !== undefined && report.rewardAmount > 0 && (
-                    <span className="inline-flex px-2 py-0.5 text-xs font-semibold rounded-full bg-green-100 text-green-700">
-                      {formatReward(report.rewardAmount, report.rewardName)}
-                    </span>
-                  )}
                   {report.status === 'resolved' && report.isReadByUser !== undefined && (
                     <span className={`inline-flex px-2 py-0.5 text-xs font-semibold rounded-full ${report.isReadByUser ? 'bg-slate-100 text-slate-400' : 'bg-orange-100 text-orange-600'}`}>
                       {report.isReadByUser ? '유저 읽음' : '유저 안읽음'}
@@ -711,18 +692,6 @@ export default function ReportsClient({
                       <p className="text-sm font-semibold text-slate-700">{selectedReport.mname}{selectedReport.midx !== undefined && ` (${selectedReport.midx})`}</p>
                     </div>
                   )}
-                  {selectedReport.rewardName && (
-                    <div className="bg-slate-50 rounded-xl p-3">
-                      <p className="text-xs text-slate-400 mb-0.5">리워드 단위</p>
-                      <p className="text-sm font-semibold text-slate-700">{selectedReport.rewardName}</p>
-                    </div>
-                  )}
-                  {selectedReport.rewardPerUnit !== undefined && (
-                    <div className="bg-slate-50 rounded-xl p-3">
-                      <p className="text-xs text-slate-400 mb-0.5">리워드 단가</p>
-                      <p className="text-sm font-semibold text-slate-700">{selectedReport.rewardPerUnit.toLocaleString()}</p>
-                    </div>
-                  )}
                   <div className="bg-slate-50 rounded-xl p-3">
                     <p className="text-xs text-slate-400 mb-0.5">접수일</p>
                     <p className="text-sm font-semibold text-slate-700">{formatDateTime(selectedReport.createdAt)}</p>
@@ -749,21 +718,10 @@ export default function ReportsClient({
                   )}
                 </div>
 
-                {/* 처리완료: 리워드 + 답변 */}
+                {/* 처리완료: 답변 */}
                 {selectedReport.status === 'resolved' && (
                   <div className="space-y-3">
                     <div className="border-t border-slate-100" />
-                    {selectedReport.rewardAmount && selectedReport.rewardAmount > 0 ? (
-                      <div className="flex items-center justify-between bg-green-50 border border-green-200 rounded-xl px-4 py-3.5">
-                        <p className="text-xs font-semibold text-green-600">지급된 리워드</p>
-                        <p className="text-base font-bold text-green-700">{formatReward(selectedReport.rewardAmount, selectedReport.rewardName)}</p>
-                      </div>
-                    ) : (
-                      <div className="flex items-center justify-between bg-slate-50 border border-slate-200 rounded-xl px-4 py-3.5">
-                        <p className="text-xs font-semibold text-slate-400">지급된 리워드</p>
-                        <p className="text-sm text-slate-400">없음</p>
-                      </div>
-                    )}
                     {selectedReport.adminNote && (
                       <div className="bg-blue-50 border border-blue-100 rounded-xl px-4 py-3.5">
                         <div className="flex items-center justify-between mb-2">
@@ -780,7 +738,7 @@ export default function ReportsClient({
                   </div>
                 )}
 
-                {/* 접수됨: 답변 + 리워드 입력 */}
+                {/* 접수됨: 답변 입력 */}
                 {selectedReport.status === 'pending' && (
                   <div className="space-y-4">
                     <div className="border-t border-slate-100" />
@@ -791,12 +749,8 @@ export default function ReportsClient({
                           value={adminNoteSelect}
                           onChange={(e) => {
                             const val = e.target.value;
-                            const opts = getAdminNoteOptions(selectedReport);
                             setAdminNoteSelect(val);
                             if (val !== '직접 입력') setAdminNote('');
-                            if (val === opts[1].value || val === opts[3].value) setRewardRate(100);
-                            else if (val === '직접 입력') setRewardRate(0);
-                            else setRewardRate(0);
                           }}
                           className="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                         >
@@ -827,73 +781,6 @@ export default function ReportsClient({
                               }`}
                               rows={Math.max(3, (displayValue.match(/\n/g) || []).length + 2)}
                             />
-                          </div>
-                        );
-                      })()}
-                    </div>
-                    <div>
-                      <label className="text-sm font-medium text-slate-700 mb-2 block">리워드 지급</label>
-                      {(() => {
-                        const options = getAdminNoteOptions(selectedReport);
-                        const isRewardOption = adminNoteSelect === options[1].value || adminNoteSelect === options[3].value;
-                        const isDirect = adminNoteSelect === '직접 입력';
-                        const max = selectedReport.rewardPerUnit ?? 0;
-                        if (!isRewardOption && !isDirect) {
-                          return (
-                            <div className="px-4 py-3 border border-slate-200 rounded-xl bg-slate-50 text-sm">
-                              <span className="text-slate-500">지급 안함</span>
-                            </div>
-                          );
-                        }
-                        if (isRewardOption) {
-                          return (
-                            <div className="flex items-center justify-between bg-green-50 border border-green-200 rounded-xl px-4 py-3 text-sm">
-                              <span className="font-semibold text-green-700">
-                                {max.toLocaleString()} {selectedReport.rewardName ?? '-'}
-                              </span>
-                              <span className="text-xs text-green-500">100% 지급</span>
-                            </div>
-                          );
-                        }
-                        return (
-                          <div className="space-y-2">
-                            <div className="flex gap-2">
-                              <button
-                                onClick={() => setRewardRate(0)}
-                                className={`flex-1 py-2 rounded-xl text-sm font-semibold border transition-colors ${
-                                  rewardRate === 0
-                                    ? 'bg-slate-500 text-white border-slate-500'
-                                    : 'bg-white text-slate-600 border-slate-200 hover:border-slate-400 hover:text-slate-700'
-                                }`}
-                              >
-                                안함
-                              </button>
-                              {([20, 50, 100] as const).map((rate) => (
-                                <button
-                                  key={rate}
-                                  onClick={() => setRewardRate(rate)}
-                                  className={`flex-1 py-2 rounded-xl text-sm font-semibold border transition-colors ${
-                                    rewardRate === rate
-                                      ? 'bg-green-600 text-white border-green-600'
-                                      : 'bg-white text-slate-600 border-slate-200 hover:border-green-400 hover:text-green-600'
-                                  }`}
-                                >
-                                  {rate}%
-                                </button>
-                              ))}
-                            </div>
-                            <div className="px-4 py-2.5 border border-slate-200 rounded-xl bg-slate-50 text-sm">
-                              {rewardRate === 0 ? (
-                                <span className="text-slate-500">지급 안함</span>
-                              ) : (
-                                <>
-                                  <span className="font-semibold text-slate-700">
-                                    {Math.round(max * (rewardRate / 100)).toLocaleString()} {selectedReport.rewardName ?? '-'}
-                                  </span>
-                                  <span className="text-xs text-slate-400 ml-1">(최대 {max.toLocaleString()}의 {rewardRate}%)</span>
-                                </>
-                              )}
-                            </div>
                           </div>
                         );
                       })()}
@@ -937,21 +824,6 @@ export default function ReportsClient({
                 <div className="bg-slate-50 rounded-xl p-3.5">
                   <p className="text-xs text-slate-400 mb-1">답변</p>
                   <p className="text-sm text-slate-700 whitespace-pre-wrap">{adminNoteSelect === '직접 입력' ? adminNote : adminNoteSelect}</p>
-                </div>
-                <div className="bg-slate-50 rounded-xl p-3.5 flex items-center justify-between">
-                  <p className="text-xs text-slate-400">리워드</p>
-                  <p className="text-sm font-semibold text-slate-700">
-                    {(() => {
-                      const opts = getAdminNoteOptions(selectedReport);
-                      const is2nd = adminNoteSelect === opts[1].value || adminNoteSelect === opts[3].value;
-                      const isDirect = adminNoteSelect === '직접 입력';
-                      const rate = (is2nd || isDirect) ? rewardRate : 0;
-                      const reward = Math.round((selectedReport.rewardPerUnit ?? 0) * (rate / 100));
-                      return reward > 0
-                        ? `${reward.toLocaleString()} ${selectedReport.rewardName ?? '-'} (${rate}%)`
-                        : '없음';
-                    })()}
-                  </p>
                 </div>
               </div>
 
