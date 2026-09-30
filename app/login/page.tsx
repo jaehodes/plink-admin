@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import LoginForm from './LoginForm';
 
 export const metadata: Metadata = {
-  title: '로그인 - 플리커 관리자',
+  title: '로그인 - 플링크 관리자',
   robots: 'noindex, nofollow',
 };
 
@@ -21,8 +21,8 @@ export default async function LoginPage({ searchParams }: PageProps) {
       <div className="bg-white rounded-2xl shadow-xl p-8 max-w-sm w-full border border-slate-100">
         <div className="flex flex-col items-center mb-8">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/favicon.ico" alt="플리커" className="w-14 h-14 mb-4" />
-          <h1 className="text-xl font-bold text-slate-900">플리커 관리자</h1>
+          <img src="/favicon.ico" alt="플링크" className="w-14 h-14 mb-4" />
+          <h1 className="text-xl font-bold text-slate-900">플링크 관리자</h1>
         </div>
 
         {reason === 'expired' && (

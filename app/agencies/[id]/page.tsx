@@ -6,8 +6,8 @@ import { getAgencyDetail, getPlatformPrices } from "../actions";
 import AgencyDetailClient from "./AgencyDetailClient";
 
 export const metadata: Metadata = {
-  title: '대리점 상세 - 플리커 관리자',
-  description: '플리커 대리점 계정 상세',
+  title: '대리점 상세 - 플링크 관리자',
+  description: '플링크 대리점 계정 상세',
   robots: "noindex, nofollow",
 };
 

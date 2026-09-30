@@ -18,7 +18,7 @@ import type {
 } from '../types/agency';
 
 /**
- * 대리점 계정·건수·단가 Server Actions (plicker-api /api/admin-app/order-users 등, docs/admin-app/order-users-api.md)
+ * 대리점 계정·건수·단가 Server Actions (plink-api /api/admin-app/order-users 등, docs/admin-app/order-users-api.md)
  * - 이름·memo·사유는 여기서 base64로 바꿔 보내고, 받은 값은 복원해 넘긴다.
  * - 실패하면 상태 코드와 code를 그대로 넘긴다. 화면이 409 INSUFFICIENT_BALANCE 같은 code로 안내를 나눈다.
  * - 건수를 옮기는 요청(적립·회수·전환·조정)은 화면에서 만든 requestId를 받는다. 재시도에 같은 값을 보내면 중복 처리되지 않는다.

@@ -1,11 +1,11 @@
 # Docker 배포
 
-plicker-api와 같은 방식으로, 한 서버에서 dev와 prod를 compose 프로젝트 두 개로 나눠 운영한다. 이미지는 환경과 무관하게 하나이며, 환경 구분은 실행 시 주입하는 값으로만 한다. (plicker-api: `../plicker-api/docs/deploy/docker.md`)
+plink-api와 같은 방식으로, 한 서버에서 dev와 prod를 compose 프로젝트 두 개로 나눠 운영한다. 이미지는 환경과 무관하게 하나이며, 환경 구분은 실행 시 주입하는 값으로만 한다. (plink-api: `../plink-api/docs/deploy/docker.md`)
 
 | | dev | prod |
 |---|---|---|
 | 주소 | `https://plink-admin.funx.ai:8443` | `https://plink-admin.funx.ai` |
-| 디렉터리 | `/srv/plicker-admin/dev` | `/srv/plicker-admin/prod` |
+| 디렉터리 | `/srv/plink-admin/dev` | `/srv/plink-admin/prod` |
 | compose 프로젝트 | `plink-admin-dev` | `plink-admin-prod` |
 | `APP_ENV` | `development` | `production` |
 | `EXTERNAL_API_URL` | `https://plink-api.funx.ai:8443` | `https://plink-api.funx.ai` |
@@ -14,7 +14,7 @@ plicker-api와 같은 방식으로, 한 서버에서 dev와 prod를 compose 프�
 ## 환경변수
 
 - `APP_ENV`: 쿠키 이름(`padmin-*` / `test-padmin-*`)과 화면의 환경 표시를 정한다. dev와 prod는 같은 도메인이라 쿠키를 함께 쓰므로(쿠키는 포트를 구분하지 않는다) 반드시 맞게 넣는다.
-- `EXTERNAL_API_URL`: plicker-api 주소. 컨테이너에서 공인 도메인으로 호출한다. 보안그룹에서 443/8443을 특정 IP로만 열어 두었다면 서버 자신의 공인 IP도 허용해야 한다.
+- `EXTERNAL_API_URL`: plink-api 주소. 컨테이너에서 공인 도메인으로 호출한다. 보안그룹에서 443/8443을 특정 IP로만 열어 두었다면 서버 자신의 공인 IP도 허용해야 한다.
 - `NEXT_PUBLIC_*`는 빌드할 때 코드에 고정되므로 환경별 값에 쓰지 않는다. `NEXT_PUBLIC_APP_VERSION`(화면 헤더의 버전)만 빌드할 때 git sha로 넣는다.
 - `NODE_ENV=production`은 이미지에 들어 있다. 쿠키의 `secure`가 켜지므로 https로만 접속할 수 있다.
 
@@ -29,7 +29,7 @@ plicker-api와 같은 방식으로, 한 서버에서 dev와 prod를 compose 프�
 서버 디렉터리 구성:
 
 ```
-/srv/plicker-admin/<env>/
+/srv/plink-admin/<env>/
 ├── compose.yml   # deploy/compose.yml 복사
 └── .env          # COMPOSE_PROJECT_NAME, APP_ENV, HOST_PORT, EXTERNAL_API_URL, IMAGE, TAG
 ```
@@ -38,21 +38,21 @@ plicker-api와 같은 방식으로, 한 서버에서 dev와 prod를 compose 프�
 
 ## 최초 설정 (서버)
 
-Artifact Registry 저장소와 서버의 `docker login`은 plicker-api에서 한 것을 그대로 쓴다.
+Artifact Registry 저장소와 서버의 `docker login`은 plink-api에서 한 것을 그대로 쓴다.
 
 ```bash
-sudo mkdir -p /srv/plicker-admin/{dev,prod}
-sudo chown $USER /srv/plicker-admin/dev /srv/plicker-admin/prod
+sudo mkdir -p /srv/plink-admin/{dev,prod}
+sudo chown $USER /srv/plink-admin/dev /srv/plink-admin/prod
 ```
 
 로컬(Mac)에서 복사:
 
 ```bash
 SERVER=ubuntu@<서버>
-scp deploy/compose.yml $SERVER:/srv/plicker-admin/dev/compose.yml
-scp deploy/env.example $SERVER:/srv/plicker-admin/dev/.env
-scp deploy/compose.yml $SERVER:/srv/plicker-admin/prod/compose.yml
-scp deploy/env.example $SERVER:/srv/plicker-admin/prod/.env
+scp deploy/compose.yml $SERVER:/srv/plink-admin/dev/compose.yml
+scp deploy/env.example $SERVER:/srv/plink-admin/dev/.env
+scp deploy/compose.yml $SERVER:/srv/plink-admin/prod/compose.yml
+scp deploy/env.example $SERVER:/srv/plink-admin/prod/.env
 ```
 
 서버에서 `.env`를 환경에 맞게 수정한다(prod는 주석 처리된 prod 예시 값으로 바꾼다). 그다음 `docker compose up -d`를 실행하고, nginx는 [deploy/nginx/plink-admin.conf](../../deploy/nginx/plink-admin.conf) 상단의 설치 순서를 따른다.
@@ -69,7 +69,7 @@ deploy/build-push.sh
 서버에서:
 
 ```bash
-cd /srv/plicker-admin/dev          # 또는 prod
+cd /srv/plink-admin/dev          # 또는 prod
 # .env의 TAG를 새 sha로 수정
 docker compose pull
 docker compose up -d

@@ -14,28 +14,28 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "플리커 관리자",
-  description: "플리커 관리자",
-  keywords: ["플리커", "관리자", "플랫폼"],
-  authors: [{ name: "플리커 Team" }],
-  creator: "플리커",
-  publisher: "플리커",
+  title: "플링크 관리자",
+  description: "플링크 관리자",
+  keywords: ["플링크", "관리자", "플랫폼"],
+  authors: [{ name: "플링크 Team" }],
+  creator: "플링크",
+  publisher: "플링크",
   formatDetection: {
     email: false,
     address: false,
     telephone: false,
   },
   openGraph: {
-    title: "플리커 관리자",
-    description: "플리커 관리자 시스템",
-    siteName: "플리커",
+    title: "플링크 관리자",
+    description: "플링크 관리자 시스템",
+    siteName: "플링크",
     locale: "ko_KR",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "플리커 관리자",
-    description: "플리커 관리자 시스템",
+    title: "플링크 관리자",
+    description: "플링크 관리자 시스템",
   },
   robots: {
     index: false,

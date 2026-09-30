@@ -1,5 +1,5 @@
 /**
- * plicker-api 자체 인증(/api/admin-app/auth/*) 호출과 토큰 쿠키 옵션.
+ * plink-api 자체 인증(/api/admin-app/auth/*) 호출과 토큰 쿠키 옵션.
  * proxy.ts와 Server Action 양쪽에서 쓰므로 next/headers에 의존하지 않는다.
  */
 
@@ -52,7 +52,7 @@ export async function postAuthApi(
   }
 }
 
-/** JWT payload를 서명 검증 없이 읽는다. 표시·만료 확인용이며, 실제 검증은 plicker-api가 한다. */
+/** JWT payload를 서명 검증 없이 읽는다. 표시·만료 확인용이며, 실제 검증은 plink-api가 한다. */
 export function decodeTokenPayload(token: string): Record<string, unknown> | null {
   const payload = token.split('.')[1];
   if (!payload) return null;

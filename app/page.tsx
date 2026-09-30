@@ -23,9 +23,9 @@ export default async function Home() {
       <div className="max-w-4xl mx-auto space-y-6">
         <div>
           <h1 className="text-2xl font-bold text-slate-800">
-            {adminName ? `${adminName}님, 안녕하세요` : '플리커 관리자에 오신 것을 환영합니다'}
+            {adminName ? `${adminName}님, 안녕하세요` : '플링크 관리자에 오신 것을 환영합니다'}
           </h1>
-          <p className="text-sm text-slate-400 mt-1">플리커 관리자 시스템입니다.</p>
+          <p className="text-sm text-slate-400 mt-1">플링크 관리자 시스템입니다.</p>
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">

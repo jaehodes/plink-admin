@@ -1,6 +1,6 @@
 /**
  * 대리점(order_users) 계정·건수·단가 타입과 라벨.
- * plicker-api 문서: docs/admin-app/order-users-api.md, 설계: BALANCE.md
+ * plink-api 문서: docs/admin-app/order-users-api.md, 설계: BALANCE.md
  * - 잔액은 원이 아니라 유형별 건수다. 시스템은 건수만 옮기고 돈은 오프라인으로 처리한다.
  * - API의 이름·memo·사유는 base64이며, Server Action(actions.ts)에서 복원해 넘긴다.
  */
@@ -219,7 +219,7 @@ export const formatDateTime = (iso: string | null | undefined) => {
   return `${pad2(d.getUTCFullYear() % 100)}.${pad2(d.getUTCMonth() + 1)}.${pad2(d.getUTCDate())} ${pad2(d.getUTCHours())}:${pad2(d.getUTCMinutes())}`;
 };
 
-/** 로그인 ID 규칙 (plicker-api와 같다): 영문 소문자/숫자로 시작, 영문 소문자·숫자·`. _ -` 3~64자 */
+/** 로그인 ID 규칙 (plink-api와 같다): 영문 소문자/숫자로 시작, 영문 소문자·숫자·`. _ -` 3~64자 */
 export const LOGIN_ID_PATTERN = /^[a-z0-9][a-z0-9._-]{2,63}$/;
 
 export const MIN_PASSWORD_LENGTH = 8;

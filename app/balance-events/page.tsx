@@ -4,8 +4,8 @@ import { requireAuth } from "../lib/auth-server";
 import BalanceEventsClient from "./BalanceEventsClient";
 
 export const metadata: Metadata = {
-  title: '건수 원장 - 플리커 관리자',
-  description: '플리커 대리점 건수 원장',
+  title: '건수 원장 - 플링크 관리자',
+  description: '플링크 대리점 건수 원장',
   robots: "noindex, nofollow",
 };
 

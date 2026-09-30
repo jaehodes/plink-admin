@@ -3,12 +3,12 @@ import Layout from '../components/Layout';
 import { requireAuth } from '../lib/auth-server';
 
 export const metadata: Metadata = {
-  title: '수행 목록 - 플리커 관리자',
-  description: '플리커 수행 목록',
-  keywords: ['수행', '플리커', '관리'],
+  title: '수행 목록 - 플링크 관리자',
+  description: '플링크 수행 목록',
+  keywords: ['수행', '플링크', '관리'],
   openGraph: {
-    title: '수행 목록 - 플리커 관리자',
-    description: '플리커 수행 목록',
+    title: '수행 목록 - 플링크 관리자',
+    description: '플링크 수행 목록',
     type: 'website',
   },
   robots: "noindex, nofollow",

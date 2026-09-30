@@ -7,12 +7,12 @@ import { DecodeBase64, EncodeBase64 } from "../utils/base64Utils";
 import QuizzesClient from "./QuizzesClient";
 
 export const metadata: Metadata = {
-  title: '퀴즈/주차장 관리 - 플리커 관리자',
-  description: '플리커 퀴즈 및 주차장 문제 관리',
-  keywords: ['퀴즈', '주차장', '관리', '플리커'],
+  title: '퀴즈/주차장 관리 - 플링크 관리자',
+  description: '플링크 퀴즈 및 주차장 문제 관리',
+  keywords: ['퀴즈', '주차장', '관리', '플링크'],
   openGraph: {
-    title: '퀴즈/주차장 관리 - 플리커 관리자',
-    description: '플리커 퀴즈 및 주차장 문제 관리',
+    title: '퀴즈/주차장 관리 - 플링크 관리자',
+    description: '플링크 퀴즈 및 주차장 문제 관리',
     type: 'website',
   },
   robots: "noindex, nofollow",

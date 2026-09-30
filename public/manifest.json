@@ -1,7 +1,7 @@
 {
-  "name": "플리커 관리자 플랫폼",
-  "short_name": "플리커",
-  "description": "플리커 관리자 시스템",
+  "name": "플링크 관리자 플랫폼",
+  "short_name": "플링크",
+  "description": "플링크 관리자 시스템",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",

@@ -5,8 +5,8 @@ import { listAgencies } from "./actions";
 import AgenciesClient from "./AgenciesClient";
 
 export const metadata: Metadata = {
-  title: '대리점 관리 - 플리커 관리자',
-  description: '플리커 대리점 계정·건수 관리',
+  title: '대리점 관리 - 플링크 관리자',
+  description: '플링크 대리점 계정·건수 관리',
   robots: "noindex, nofollow",
 };
 

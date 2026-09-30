@@ -4,8 +4,8 @@ import { requireAuth } from "../lib/auth-server";
 import PlatformPricesClient from "./PlatformPricesClient";
 
 export const metadata: Metadata = {
-  title: '플랫폼 단가 - 플리커 관리자',
-  description: '플리커 플랫폼 단가 관리',
+  title: '플랫폼 단가 - 플링크 관리자',
+  description: '플링크 플랫폼 단가 관리',
   robots: "noindex, nofollow",
 };
 

@@ -7,12 +7,12 @@ import { DecodeBase64 } from "../utils/base64Utils";
 import FaqClient from "./FaqClient";
 
 export const metadata: Metadata = {
-  title: 'FAQ 관리 - 플리커 관리자',
-  description: '플리커 자주묻는 질문 관리',
-  keywords: ['FAQ', '자주묻는 질문', '플리커', '관리'],
+  title: 'FAQ 관리 - 플링크 관리자',
+  description: '플링크 자주묻는 질문 관리',
+  keywords: ['FAQ', '자주묻는 질문', '플링크', '관리'],
   openGraph: {
-    title: 'FAQ 관리 - 플리커 관리자',
-    description: '플리커 자주묻는 질문 관리',
+    title: 'FAQ 관리 - 플링크 관리자',
+    description: '플링크 자주묻는 질문 관리',
     type: 'website',
   },
   robots: "noindex, nofollow",

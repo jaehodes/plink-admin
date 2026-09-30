@@ -6,12 +6,12 @@ import { Order } from "../types/order";
 import OrdersClient from "./OrdersClient";
 
 export const metadata: Metadata = {
-  title: '발주 목록 - 플리커 관리자',
-  description: '플리커 발주 목록',
-  keywords: ['발주', '목록', '플리커', '관리'],
+  title: '발주 목록 - 플링크 관리자',
+  description: '플링크 발주 목록',
+  keywords: ['발주', '목록', '플링크', '관리'],
   openGraph: {
-    title: '발주 목록 - 플리커 관리자',
-    description: '플리커 발주 목록',
+    title: '발주 목록 - 플링크 관리자',
+    description: '플링크 발주 목록',
     type: 'website',
   },
   robots: "noindex, nofollow",

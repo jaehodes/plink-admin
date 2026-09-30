@@ -7,12 +7,12 @@ import { DecodeBase64 } from "../utils/base64Utils";
 import ReportsClient from "./ReportsClient";
 
 export const metadata: Metadata = {
-  title: '문의 목록 - 플리커 관리자',
-  description: '플리커 미션 신고 문의 목록',
-  keywords: ['문의', '신고', '플리커', '관리'],
+  title: '문의 목록 - 플링크 관리자',
+  description: '플링크 미션 신고 문의 목록',
+  keywords: ['문의', '신고', '플링크', '관리'],
   openGraph: {
-    title: '문의 목록 - 플리커 관리자',
-    description: '플리커 미션 신고 문의 목록',
+    title: '문의 목록 - 플링크 관리자',
+    description: '플링크 미션 신고 문의 목록',
     type: 'website',
   },
   robots: "noindex, nofollow",

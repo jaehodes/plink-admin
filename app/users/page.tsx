@@ -7,12 +7,12 @@ import { DecodeBase64 } from "../utils/base64Utils";
 import UsersClient from "./UsersClient";
 
 export const metadata: Metadata = {
-  title: '회원관리 - 플리커 관리자',
-  description: '플리커 회원 관리',
-  keywords: ['회원', '관리', '플리커'],
+  title: '회원관리 - 플링크 관리자',
+  description: '플링크 회원 관리',
+  keywords: ['회원', '관리', '플링크'],
   openGraph: {
-    title: '회원관리 - 플리커 관리자',
-    description: '플리커 회원 관리',
+    title: '회원관리 - 플링크 관리자',
+    description: '플링크 회원 관리',
     type: 'website',
   },
   robots: "noindex, nofollow",

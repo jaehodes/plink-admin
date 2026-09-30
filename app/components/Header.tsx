@@ -39,9 +39,9 @@ export default function Header({ adminName, appEnv }: HeaderProps) {
       <div className="flex items-center justify-between gap-2 min-w-0">
         <div className="flex items-center gap-1.5 sm:gap-2 min-w-0 shrink-0">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/favicon.ico" alt="플리커" className="w-5 h-5 sm:w-6 sm:h-6" />
+          <img src="/favicon.ico" alt="플링크" className="w-5 h-5 sm:w-6 sm:h-6" />
           <Link href="/" className="text-base sm:text-xl font-semibold text-gray-900 hover:text-gray-700 transition-colors whitespace-nowrap">
-            플리커 관리자
+            플링크 관리자
           </Link>
           {process.env.NEXT_PUBLIC_APP_VERSION && (
             <span className="hidden sm:inline text-xs text-gray-400 font-medium">v{process.env.NEXT_PUBLIC_APP_VERSION}</span>

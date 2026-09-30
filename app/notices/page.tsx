@@ -7,12 +7,12 @@ import { DecodeBase64 } from "../utils/base64Utils";
 import NoticesClient from "./NoticesClient";
 
 export const metadata: Metadata = {
-  title: '공지사항 - 플리커 관리자',
-  description: '플리커 공지사항 관리',
-  keywords: ['공지사항', '플리커', '관리'],
+  title: '공지사항 - 플링크 관리자',
+  description: '플링크 공지사항 관리',
+  keywords: ['공지사항', '플링크', '관리'],
   openGraph: {
-    title: '공지사항 - 플리커 관리자',
-    description: '플리커 공지사항 관리',
+    title: '공지사항 - 플링크 관리자',
+    description: '플링크 공지사항 관리',
     type: 'website',
   },
   robots: "noindex, nofollow",

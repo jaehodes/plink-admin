@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# plicker-admin 이미지를 linux/amd64로 빌드해 Artifact Registry에 올린다.
+# plink-admin 이미지를 linux/amd64로 빌드해 Artifact Registry에 올린다.
 # 태그는 현재 커밋의 짧은 sha. 커밋되지 않은 변경이 있으면 중단한다.
 #
 # 사용법: deploy/build-push.sh

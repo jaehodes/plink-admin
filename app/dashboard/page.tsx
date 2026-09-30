@@ -7,12 +7,12 @@ import { DashboardData, PeriodFilter } from "../types/dashboard";
 import DashboardClient from "./DashboardClient";
 
 export const metadata: Metadata = {
-  title: '대시보드 - 플리커 관리자',
-  description: '플리커 대시보드',
-  keywords: ['대시보드', '플리커', '관리'],
+  title: '대시보드 - 플링크 관리자',
+  description: '플링크 대시보드',
+  keywords: ['대시보드', '플링크', '관리'],
   openGraph: {
-    title: '대시보드 - 플리커 관리자',
-    description: '플리커 대시보드',
+    title: '대시보드 - 플링크 관리자',
+    description: '플링크 대시보드',
     type: 'website',
   },
   robots: "noindex, nofollow",
