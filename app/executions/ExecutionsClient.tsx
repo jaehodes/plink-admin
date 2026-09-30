@@ -290,7 +290,7 @@ export default function ExecutionsClient({ initialExecutions: executions, initia
         >
           <option value="placeName">플레이스명</option>
           <option value="uname">닉네임</option>
-          <option value="mname">매체사</option>
+          <option value="affiliation">소속(PC방)</option>
         </select>
         <div className="relative flex-1 max-w-xs">
           <input
@@ -377,7 +377,7 @@ export default function ExecutionsClient({ initialExecutions: executions, initia
                   <div className="flex items-center gap-2 text-xs text-slate-400">
                     <span>{execution.uname}</span>
                     <span>·</span>
-                    <span>{decodeBase64(execution.mname)}</span>
+                    <span>{decodeBase64(execution.affiliation)}</span>
                   </div>
                   <div className="text-right shrink-0 ml-4">
                     <p className="text-xs text-slate-400">{formatDateTime(execution.startedAt)}</p>

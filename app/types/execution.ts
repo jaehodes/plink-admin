@@ -22,9 +22,8 @@ export interface Execution {
   id: string;
   orderId: string;
   uname: string;
-  adid: string;
-  mname: string;     // 매체사명 (Base64 인코딩)
-  midx: number;      // 매체사 번호
+  kind: 'app' | 'pcbang';  // 수행자 구분
+  affiliation: string;     // 소속: PC방 이름 또는 '앱' (Base64 인코딩)
   placeName: string;
   keyword: string;
   type: ExecutionType;

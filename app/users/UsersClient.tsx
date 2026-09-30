@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEscRef } from '../hooks/useEscClose';
 import ConfirmModal from '../components/ConfirmModal';
-import { User, UserNotification, USER_BLOCKED_LABELS, USER_BLOCKED_COLORS } from '../types/user';
+import { User, UserNotification, USER_BLOCKED_LABELS, USER_BLOCKED_COLORS, APP_USER_KIND_LABELS } from '../types/user';
 import { toggleUserBlock, getUserNotifications, sendNotification, updateUserMemo } from './actions';
 import { useToast } from '../components/Toast';
 
@@ -269,7 +269,7 @@ export default function UsersClient({
                         <div className="flex items-center gap-3 text-xs text-slate-500">
                           <span className="font-mono">{user.uid}</span>
                           <span className="text-slate-300">|</span>
-                          <span>{user.mname}</span>
+                          <span>{user.affiliation}</span>
                         </div>
                       </div>
 
@@ -380,16 +380,12 @@ export default function UsersClient({
                 {/* 기본 정보 카드 */}
                 <div className="grid grid-cols-2 gap-3">
                   <div className="bg-slate-50 rounded-xl p-3.5">
-                    <p className="text-xs text-slate-400 mb-1">매체사</p>
-                    <p className="text-sm font-semibold text-slate-700">{selectedUser.mname}</p>
+                    <p className="text-xs text-slate-400 mb-1">구분</p>
+                    <p className="text-sm font-semibold text-slate-700">{APP_USER_KIND_LABELS[selectedUser.kind] ?? selectedUser.kind}</p>
                   </div>
                   <div className="bg-slate-50 rounded-xl p-3.5">
-                    <p className="text-xs text-slate-400 mb-1">매체사 번호</p>
-                    <p className="text-sm font-semibold text-slate-700">{selectedUser.midx}</p>
-                  </div>
-                  <div className="bg-slate-50 rounded-xl p-3.5">
-                    <p className="text-xs text-slate-400 mb-1">ADID</p>
-                    <p className="text-xs font-mono text-slate-600 break-all">{selectedUser.adid || '-'}</p>
+                    <p className="text-xs text-slate-400 mb-1">소속</p>
+                    <p className="text-sm font-semibold text-slate-700">{selectedUser.affiliation}</p>
                   </div>
                 </div>
 

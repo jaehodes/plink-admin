@@ -339,7 +339,7 @@ export default function ReportsClient({
           className="px-3 py-2.5 text-sm border border-slate-200 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
           <option value="uname">닉네임</option>
-          <option value="mname">매체사</option>
+          <option value="affiliation">소속(PC방)</option>
           <option value="orderer">발주사</option>
         </select>
         <div className="relative flex-1 max-w-xs">
@@ -433,8 +433,8 @@ export default function ReportsClient({
                     {report.uname && <span><span className="text-slate-400">닉네임:</span> {report.uname}</span>}
                     {report.uname && report.orderer && <span>·</span>}
                     {report.orderer && <span><span className="text-slate-400">발주사:</span> {report.orderer}</span>}
-                    {(report.uname || report.orderer) && report.mname && <span>·</span>}
-                    {report.mname && <span><span className="text-slate-400">매체사:</span> {report.mname}</span>}
+                    {(report.uname || report.orderer) && report.affiliation && <span>·</span>}
+                    {report.affiliation && <span><span className="text-slate-400">소속:</span> {report.affiliation}</span>}
                   </div>
                   <div className="text-right shrink-0 ml-4">
                     <p className="text-xs text-slate-400">{formatDateTime(report.createdAt)}</p>
@@ -686,10 +686,10 @@ export default function ReportsClient({
                       <p className="text-sm font-semibold text-slate-700">{selectedReport.uname}</p>
                     </div>
                   )}
-                  {selectedReport.mname && (
+                  {selectedReport.affiliation && (
                     <div className="bg-slate-50 rounded-xl p-3">
-                      <p className="text-xs text-slate-400 mb-0.5">매체사</p>
-                      <p className="text-sm font-semibold text-slate-700">{selectedReport.mname}{selectedReport.midx !== undefined && ` (${selectedReport.midx})`}</p>
+                      <p className="text-xs text-slate-400 mb-0.5">소속</p>
+                      <p className="text-sm font-semibold text-slate-700">{selectedReport.affiliation}</p>
                     </div>
                   )}
                   <div className="bg-slate-50 rounded-xl p-3">

@@ -21,7 +21,7 @@ export const metadata: Metadata = {
 function decodeUser(user: User): User {
   return {
     ...user,
-    mname: user.mname ? DecodeBase64(user.mname) : user.mname,
+    affiliation: user.affiliation ? DecodeBase64(user.affiliation) : user.affiliation,
     memo: user.memo ? DecodeBase64(user.memo) : user.memo,
     uname: user.uname ? DecodeBase64(user.uname) : user.uname,
   };

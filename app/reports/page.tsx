@@ -24,7 +24,7 @@ function decodeSummary(report: MissionReportSummary): MissionReportSummary {
     reason: DecodeBase64(report.reason),
     uname: report.uname ? DecodeBase64(report.uname) : report.uname,
     orderer: report.orderer ? DecodeBase64(report.orderer) : report.orderer,
-    mname: report.mname ? DecodeBase64(report.mname) : report.mname,
+    affiliation: report.affiliation ? DecodeBase64(report.affiliation) : report.affiliation,
     placeName: report.placeName ? DecodeBase64(report.placeName) : report.placeName,
   };
 }

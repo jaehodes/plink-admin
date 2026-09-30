@@ -375,7 +375,7 @@ export default function DashboardClient({ data, error, period, isProduction }: D
         </div>
       </section>
 
-      {/* ③ 발주 집계 + ④ 앱사 소화량 */}
+      {/* ③ 발주 집계 + ④ 소속별 소화량 */}
       <section className="grid grid-cols-1 lg:grid-cols-2 gap-3">
         {/* 발주 집계 */}
         <div className="bg-white border border-slate-200 rounded-xl p-5">
@@ -504,18 +504,18 @@ export default function DashboardClient({ data, error, period, isProduction }: D
           </div>
         </div>
 
-        {/* 앱사 소화량 */}
+        {/* 소속별 소화량 */}
         <div className="bg-white border border-slate-200 rounded-xl p-5">
           <div className="flex items-center gap-2 text-xs font-semibold text-slate-500 mb-4">
             <span className="inline-flex w-5 h-5 items-center justify-center bg-slate-100 border border-slate-200 rounded-md text-blue-600 text-[10px] font-bold">3</span>
-            앱사(매체사)별 소화량
+            소속(PC방·앱)별 소화량
           </div>
           <div className="flex gap-6 flex-wrap pb-3 border-b border-slate-100 mb-3">
             <div>
               <p className="text-xs text-slate-400 flex items-center gap-1">총 소화량
                 <span className="relative group">
                   <svg className="w-3.5 h-3.5 text-slate-300 cursor-help" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                  <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1.5 px-2.5 py-1.5 text-[11px] text-white bg-slate-800 rounded-lg whitespace-nowrap opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity z-10">전체 앱사의 완료 수행 합계</span>
+                  <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1.5 px-2.5 py-1.5 text-[11px] text-white bg-slate-800 rounded-lg whitespace-nowrap opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity z-10">전체 소속의 완료 수행 합계</span>
                 </span>
               </p>
               <p className="text-xl font-extrabold text-slate-800 mt-1">{v(mediaTotal)}{hasData && <span className="text-xs font-semibold text-slate-400 ml-1">건</span>}</p>
@@ -524,7 +524,7 @@ export default function DashboardClient({ data, error, period, isProduction }: D
               <p className="text-xs text-slate-400 flex items-center gap-1">평균 타임오버율
                 <span className="relative group">
                   <svg className="w-3.5 h-3.5 text-slate-300 cursor-help" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                  <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1.5 px-2.5 py-1.5 text-[11px] text-white bg-slate-800 rounded-lg whitespace-nowrap opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity z-10">전체 앱사의 타임오버 비율 평균</span>
+                  <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1.5 px-2.5 py-1.5 text-[11px] text-white bg-slate-800 rounded-lg whitespace-nowrap opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity z-10">전체 소속의 타임오버 비율 평균</span>
                 </span>
               </p>
               {(() => {
@@ -536,7 +536,7 @@ export default function DashboardClient({ data, error, period, isProduction }: D
             </div>
           </div>
           <TableSearchInput
-            placeholder="앱사 검색"
+            placeholder="소속 검색"
             onSearch={(v) => { setMediaSearchApplied(v); setMediaPage(1); }}
             onClear={() => { setMediaSearchApplied(''); setMediaPage(1); }}
             hasApplied={!!mediaSearchApplied}
@@ -544,7 +544,7 @@ export default function DashboardClient({ data, error, period, isProduction }: D
           <div>
           <table className="w-full text-sm">
             <thead><tr className="text-[11px] text-slate-400 font-semibold uppercase">
-              <th className="text-left py-2 px-1">앱사</th>
+              <th className="text-left py-2 px-1">소속</th>
               {([['completed', '소화량', 'text-right'], ['share', '점유율', 'text-left pl-3'], ['timeoutRate', '타임오버', 'text-right']] as const).map(([key, label, align]) => {
                 const isActive = mediaSort?.key === key;
                 return (

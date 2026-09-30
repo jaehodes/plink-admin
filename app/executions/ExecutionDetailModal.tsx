@@ -218,12 +218,8 @@ export default function ExecutionDetailModal({ executionId, onClose }: Execution
                   <p className="text-sm font-medium text-slate-900">{execution.uname}</p>
                 </div>
                 <div>
-                  <p className="text-xs text-slate-500">매체사</p>
-                  <p className="text-sm font-medium text-slate-900">{decodeBase64(execution.mname)} <span className="text-xs text-slate-400 font-normal">({execution.midx})</span></p>
-                </div>
-                <div>
-                  <p className="text-xs text-slate-500">adid</p>
-                  <p className="text-sm font-medium text-slate-900 font-mono text-xs">{execution.adid}</p>
+                  <p className="text-xs text-slate-500">소속</p>
+                  <p className="text-sm font-medium text-slate-900">{decodeBase64(execution.affiliation)}</p>
                 </div>
               </div>
             </div>

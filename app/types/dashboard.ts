@@ -29,9 +29,9 @@ export interface OrdererRow {
   revenue: number;         // 매출 (원)
 }
 
-// ③ 앱사별 소화량
+// ③ 소속(PC방·앱)별 소화량
 export interface MediaRow {
-  name: string;            // 앱사명
+  name: string;            // 소속: PC방 이름 또는 앱
   completed: number;       // 소화량
   share: number;           // 점유율 (%)
   timeoutRate: number;     // 타임오버율 (%)
