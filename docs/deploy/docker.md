@@ -5,7 +5,7 @@ plink-api와 같은 방식으로, 한 서버에서 dev와 prod를 compose 프로
 | | dev | prod |
 |---|---|---|
 | 주소 | `https://plink-admin.funx.ai:8443` | `https://plink-admin.funx.ai` |
-| 디렉터리 | `/srv/plink-admin/dev` | `/srv/plink-admin/prod` |
+| 디렉터리 | `$HOME/plink/plink-admin/dev` | `$HOME/plink/plink-admin/prod` |
 | compose 프로젝트 | `plink-admin-dev` | `plink-admin-prod` |
 | `APP_ENV` | `development` | `production` |
 | `EXTERNAL_API_URL` | `https://plink-api.funx.ai:8443` | `https://plink-api.funx.ai` |
@@ -29,7 +29,7 @@ plink-api와 같은 방식으로, 한 서버에서 dev와 prod를 compose 프로
 서버 디렉터리 구성:
 
 ```
-/srv/plink-admin/<env>/
+$HOME/plink/plink-admin/<env>/
 ├── compose.yml   # deploy/compose.yml 복사
 └── .env          # COMPOSE_PROJECT_NAME, APP_ENV, HOST_PORT, EXTERNAL_API_URL, IMAGE, TAG
 ```
@@ -41,18 +41,17 @@ plink-api와 같은 방식으로, 한 서버에서 dev와 prod를 compose 프로
 Artifact Registry 저장소와 서버의 `docker login`은 plink-api에서 한 것을 그대로 쓴다.
 
 ```bash
-sudo mkdir -p /srv/plink-admin/{dev,prod}
-sudo chown $USER /srv/plink-admin/dev /srv/plink-admin/prod
+mkdir -p $HOME/plink/plink-admin/{dev,prod}   # 홈 디렉터리 아래라 sudo가 필요 없다
 ```
 
 로컬(Mac)에서 복사:
 
 ```bash
-SERVER=ubuntu@<서버>
-scp deploy/compose.yml $SERVER:/srv/plink-admin/dev/compose.yml
-scp deploy/env.example $SERVER:/srv/plink-admin/dev/.env
-scp deploy/compose.yml $SERVER:/srv/plink-admin/prod/compose.yml
-scp deploy/env.example $SERVER:/srv/plink-admin/prod/.env
+SERVER=ubuntu@<서버>   # scp 원격 경로(plink/...)는 서버 홈 디렉터리 기준
+scp deploy/compose.yml $SERVER:plink/plink-admin/dev/compose.yml
+scp deploy/env.example $SERVER:plink/plink-admin/dev/.env
+scp deploy/compose.yml $SERVER:plink/plink-admin/prod/compose.yml
+scp deploy/env.example $SERVER:plink/plink-admin/prod/.env
 ```
 
 서버에서 `.env`를 환경에 맞게 수정한다(prod는 주석 처리된 prod 예시 값으로 바꾼다). 그다음 `docker compose up -d`를 실행하고, nginx는 [deploy/nginx/plink-admin.conf](../../deploy/nginx/plink-admin.conf) 상단의 설치 순서를 따른다.
@@ -69,7 +68,7 @@ deploy/build-push.sh
 서버에서:
 
 ```bash
-cd /srv/plink-admin/dev          # 또는 prod
+cd $HOME/plink/plink-admin/dev          # 또는 prod
 # .env의 TAG를 새 sha로 수정
 docker compose pull
 docker compose up -d

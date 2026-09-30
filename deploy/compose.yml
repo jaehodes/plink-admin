@@ -1,8 +1,8 @@
 # plink-admin 서버 배포용 compose (dev/prod 공용)
 #
 # 환경마다 디렉터리를 따로 두고 이 파일을 복사해서 쓴다.
-#   /srv/plink-admin/dev/{compose.yml, .env}
-#   /srv/plink-admin/prod/{compose.yml, .env}
+#   $HOME/plink/plink-admin/dev/{compose.yml, .env}
+#   $HOME/plink/plink-admin/prod/{compose.yml, .env}
 #
 # .env : compose 변수 (deploy/env.example 참고). 비밀값이 없어 app.env는 따로 두지 않는다.
 #
