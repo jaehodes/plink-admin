@@ -16,6 +16,9 @@ export default function Sidebar() {
         { name: '문의 목록', href: '/reports', color: 'bg-orange-500' },
         { name: '공지사항', href: '/notices', color: 'bg-rose-500' },
         { name: '회원관리', href: '/users', color: 'bg-indigo-500' },
+        { name: '대리점 관리', href: '/agencies', color: 'bg-sky-500' },
+        { name: '건수 원장', href: '/balance-events', color: 'bg-cyan-500' },
+        { name: '플랫폼 단가', href: '/order-prices', color: 'bg-lime-500' },
         { name: 'FAQ 관리', href: '/faq', color: 'bg-emerald-500' },
       ]
     },

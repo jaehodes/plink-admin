@@ -11,6 +11,8 @@ interface ExternalApiResponse<T> {
   data: T | null;
   error: string | null;
   status: number;
+  /** 실패 응답의 code (예: INSUFFICIENT_BALANCE). 화면이 code로 분기할 때 쓴다 */
+  code?: string;
 }
 
 /**
@@ -67,11 +69,13 @@ export async function externalApiFetch<T = unknown>(
 
     if (!response.ok) {
       let errorMessage = `서버 오류 (${response.status})`;
+      let errorCode: string | undefined;
       try {
         const errorData = await response.json();
         console.log('[API ERR]', response.status, url, JSON.stringify(errorData));
         if (errorData?.message) errorMessage = errorData.message;
         else if (errorData?.error) errorMessage = errorData.error;
+        if (typeof errorData?.code === 'string') errorCode = errorData.code;
       } catch {
         console.log('[API ERR]', response.status, url);
       }
@@ -79,6 +83,7 @@ export async function externalApiFetch<T = unknown>(
         data: null,
         error: errorMessage,
         status: response.status,
+        code: errorCode,
       };
     } else {
       const data = await response.json();
