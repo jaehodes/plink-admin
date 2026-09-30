@@ -20,6 +20,9 @@ export default function Sidebar() {
         { name: '건수 원장', href: '/balance-events', color: 'bg-cyan-500' },
         { name: '플랫폼 단가', href: '/order-prices', color: 'bg-lime-500' },
         { name: 'FAQ 관리', href: '/faq', color: 'bg-emerald-500' },
+        { name: 'PC방 관리', href: '/pcbangs', color: 'bg-amber-500' },
+        { name: 'PC방 통계', href: '/pcbang-stats', color: 'bg-yellow-500' },
+        { name: 'PC방 정산', href: '/pcbang-settlement', color: 'bg-stone-500' },
       ]
     },
   ];
