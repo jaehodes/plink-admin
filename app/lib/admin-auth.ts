@@ -24,10 +24,10 @@ export async function postAuthApi(
   path: 'login' | 'refresh' | 'logout',
   body: Record<string, string>
 ): Promise<AuthApiResult> {
-  const EXTERNAL_API_URL = process.env.EXTERNAL_API_URL || 'http://localhost:3000';
+  const PLINK_API_URL = process.env.PLINK_API_URL || 'http://localhost:3000';
 
   try {
-    const response = await fetch(`${EXTERNAL_API_URL}/api/admin-app/auth/${path}`, {
+    const response = await fetch(`${PLINK_API_URL}/api/admin-app/auth/${path}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body),

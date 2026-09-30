@@ -1,5 +1,5 @@
 # plink-admin 이미지
-# 환경(development/production)과 무관한 단일 이미지. APP_ENV와 EXTERNAL_API_URL은 실행 시 주입한다.
+# 환경(development/production)과 무관한 단일 이미지. APP_ENV와 PLINK_API_URL은 실행 시 주입한다.
 # NEXT_PUBLIC_* 값은 빌드 시 고정되므로 환경별 값에 쓰지 않는다. (app/lib/app-env.ts 참고)
 # 실행 방법은 docs/deploy/docker.md 참고.
 

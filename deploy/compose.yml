@@ -16,7 +16,7 @@ services:
     environment:
       # 쿠키 이름과 화면의 환경 표시를 정한다. dev/prod가 같은 도메인이라 반드시 맞게 넣는다.
       APP_ENV: ${APP_ENV:?APP_ENV is required}
-      EXTERNAL_API_URL: ${EXTERNAL_API_URL:?EXTERNAL_API_URL is required}
+      PLINK_API_URL: ${PLINK_API_URL:?PLINK_API_URL is required}
       TZ: Asia/Seoul
       # docker가 넣는 HOSTNAME(컨테이너 id)으로 바인딩하지 않도록 명시한다.
       HOSTNAME: 0.0.0.0

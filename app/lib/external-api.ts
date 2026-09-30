@@ -17,7 +17,7 @@ interface ExternalApiResponse<T> {
 
 /**
  * 외부 API 서버 호출 공통 함수
- * - EXTERNAL_API_URL 환경변수 사용
+ * - PLINK_API_URL 환경변수 사용
  * - 자동으로 Authorization 헤더 추가 (requireAuth: true일 때)
  * - 토큰 갱신은 proxy.ts에서 처리하므로 여기서는 쿠키의 access token을 그대로 사용
  * - 401 응답(차단·비밀번호 변경 등으로 토큰이 무효화됨)이면 로그인 페이지로 이동
@@ -28,7 +28,7 @@ export async function externalApiFetch<T = unknown>(
 ): Promise<ExternalApiResponse<T>> {
   const { requireAuth = true, headers: customHeaders = {}, ...fetchOptions } = options;
 
-  const EXTERNAL_API_URL = process.env.EXTERNAL_API_URL || 'http://localhost:3000';
+  const PLINK_API_URL = process.env.PLINK_API_URL || 'http://localhost:3000';
 
   let token: string | undefined;
   if (requireAuth) {
@@ -57,7 +57,7 @@ export async function externalApiFetch<T = unknown>(
   // URL 생성
   const url = endpoint.startsWith('http')
     ? endpoint
-    : `${EXTERNAL_API_URL}${endpoint.startsWith('/') ? '' : '/'}${endpoint}`;
+    : `${PLINK_API_URL}${endpoint.startsWith('/') ? '' : '/'}${endpoint}`;
 
   let result: ExternalApiResponse<T>;
   try {
