@@ -55,8 +55,8 @@ const TAB_LABELS: Record<string, string> = {
 
 // 타입별 색상
 const TYPE_STYLES: Record<string, { bg: string; text: string }> = {
-  save: { bg: 'bg-emerald-50', text: 'text-emerald-700' },
-  mission: { bg: 'bg-violet-50', text: 'text-violet-700' },
+  quiz1: { bg: 'bg-violet-50', text: 'text-violet-700' },
+  quiz2: { bg: 'bg-purple-50', text: 'text-purple-700' },
   direction: { bg: 'bg-amber-50', text: 'text-amber-700' },
 };
 
@@ -247,7 +247,7 @@ export default function OrderDetailModal({ orderId, onClose, onSuccess }: OrderD
   }
 
   const progressPercent = Math.min((order.completedCount / order.totalCount) * 100, 100);
-  const typeStyle = TYPE_STYLES[order.type] || TYPE_STYLES.save;
+  const typeStyle = TYPE_STYLES[order.type] || TYPE_STYLES.quiz1;
 
   return (
     <div ref={orderModalRef} tabIndex={-1} className="fixed inset-0 z-50 overflow-y-auto outline-none">

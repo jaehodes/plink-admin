@@ -1,6 +1,6 @@
 // 미션 신고(문의) 관련 타입 정의
 
-export type MissionType = 'save' | 'quiz1' | 'quiz2' | 'direction';
+export type MissionType = 'quiz1' | 'quiz2' | 'direction';
 
 export type MissionSubType = 'car' | 'bus';
 export type ReportStatus = 'pending' | 'resolved';
@@ -67,7 +67,6 @@ export interface MissionReportDetailResponse {
 
 // 타입/상태 라벨 헬퍼
 export const MISSION_TYPE_LABELS: Record<MissionType, string> = {
-  save: '플레이스 저장',
   quiz1: '유입미션(퀴즈1)',
   quiz2: '유입미션(퀴즈2)',
   direction: '길찾기 미션',

@@ -23,7 +23,6 @@ const STATUS_TABS: { key: 'all' | ExecutionStatus; label: string }[] = [
 
 const TYPE_BADGES: { key: 'all' | ExecutionType; label: string }[] = [
   { key: 'all', label: '전체' },
-  { key: 'save', label: '플레이스 저장' },
   { key: 'quiz1', label: '유입미션(퀴즈1)' },
   { key: 'quiz2', label: '유입미션(퀴즈2)' },
   { key: 'direction', label: '길찾기 미션' },
@@ -41,14 +40,13 @@ const PERIOD_OPTIONS: { key: PeriodFilter | 'all'; label: string }[] = [
 ];
 
 const EXECUTION_TYPE_COLORS: Record<string, string> = {
-  save: 'bg-blue-100 text-blue-700',
   quiz1: 'bg-violet-100 text-violet-700',
   quiz2: 'bg-purple-100 text-purple-700',
   direction: 'bg-teal-100 text-teal-700',
 };
 
 function isValidType(type: string | null): type is 'all' | ExecutionType {
-  return type !== null && ['all', 'save', 'quiz1', 'quiz2', 'direction'].includes(type);
+  return type !== null && ['all', 'quiz1', 'quiz2', 'direction'].includes(type);
 }
 
 function decodeBase64(str: string): string {

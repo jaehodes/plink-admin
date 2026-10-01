@@ -1,6 +1,6 @@
 // 발주 관련 타입 정의
 
-export type OrderType = 'save' | 'quiz1' | 'quiz2' | 'direction';
+export type OrderType = 'quiz1' | 'quiz2' | 'direction';
 export type OrderStatus = 'pending' | 'progress' | 'completed' | 'cancelled';
 
 export interface KeywordOrder {
@@ -74,7 +74,6 @@ export interface OrdersResponse {
 
 // 타입/상태 라벨 헬퍼
 export const ORDER_TYPE_LABELS: Record<OrderType, string> = {
-  save: '플레이스 저장',
   quiz1: '유입미션(퀴즈1)',
   quiz2: '유입미션(퀴즈2)',
   direction: '길찾기 미션',

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Layout from "../components/Layout";
 import { requireAuth } from "../lib/auth-server";
 import { externalApiGet } from "../lib/external-api";
-import { Order } from "../types/order";
+import { Order, ORDER_TYPE_LABELS } from "../types/order";
 import OrdersClient from "./OrdersClient";
 
 export const metadata: Metadata = {
@@ -54,7 +54,8 @@ export default async function OrdersPage({ searchParams }: PageProps) {
   if (params.status && params.status !== 'all') {
     queryParams.set('status', params.status);
   }
-  if (params.type && params.type !== 'all') {
+  // 없어진 유형(예: 예전 북마크의 type=save)은 API가 400을 주므로 전체로 본다.
+  if (params.type && Object.hasOwn(ORDER_TYPE_LABELS, params.type)) {
     queryParams.set('type', params.type);
   }
   if (params.searchType && params.searchWords) {

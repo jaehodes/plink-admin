@@ -34,7 +34,6 @@ function formatDateTime(dateStr: string): string {
 
 // 타입별 색상
 const TYPE_STYLES: Record<string, { bg: string; text: string }> = {
-  save: { bg: 'bg-emerald-50', text: 'text-emerald-700' },
   quiz1: { bg: 'bg-violet-50', text: 'text-violet-700' },
   quiz2: { bg: 'bg-purple-50', text: 'text-purple-700' },
   direction: { bg: 'bg-amber-50', text: 'text-amber-700' },
@@ -164,7 +163,7 @@ export default function ExecutionDetailModal({ executionId, onClose }: Execution
     );
   }
 
-  const typeStyle = TYPE_STYLES[execution.type] || TYPE_STYLES.save;
+  const typeStyle = TYPE_STYLES[execution.type] || TYPE_STYLES.quiz1;
 
   return (
     <div ref={execModalRef} tabIndex={-1} className="fixed inset-0 z-50 overflow-y-auto outline-none">
@@ -265,8 +264,8 @@ export default function ExecutionDetailModal({ executionId, onClose }: Execution
                 </div>
               )}
 
-              {/* 제출 URL (save, direction/bus만) */}
-              {execution.submittedValue && (execution.type === 'save' || (execution.type === 'direction' && execution.subType === 'bus')) && (
+              {/* 제출 URL (direction/bus만) */}
+              {execution.submittedValue && execution.type === 'direction' && execution.subType === 'bus' && (
                 <div className="pt-3 border-t border-slate-100">
                   <p className="text-xs text-slate-500 mb-1">제출한 URL</p>
                   <a

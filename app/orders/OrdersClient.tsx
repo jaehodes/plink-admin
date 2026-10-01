@@ -75,7 +75,6 @@ const STATUS_TABS: { key: 'all' | OrderStatus; label: string }[] = [
 // 타입 뱃지 정의
 const TYPE_BADGES: { key: 'all' | OrderType; label: string }[] = [
   { key: 'all', label: '전체' },
-  { key: 'save', label: '플레이스 저장' },
   { key: 'quiz1', label: '유입미션(퀴즈1)' },
   { key: 'quiz2', label: '유입미션(퀴즈2)' },
   { key: 'direction', label: '길찾기 미션' },
@@ -88,7 +87,7 @@ function isValidStatus(status: string | null): status is 'all' | OrderStatus {
 
 // 유효한 타입값인지 확인
 function isValidType(type: string | null): type is 'all' | OrderType {
-  return type !== null && ['all', 'save', 'quiz1', 'quiz2', 'direction'].includes(type);
+  return type !== null && ['all', 'quiz1', 'quiz2', 'direction'].includes(type);
 }
 
 interface OrdersClientProps {
@@ -451,9 +450,7 @@ export default function OrdersClient({ initialOrders: orders, initialTotal: tota
                       </td>
                       <td className="px-4 py-4">
                         <span className={`inline-flex px-2 py-1 text-xs font-medium rounded ${
-                          order.type === 'save'
-                            ? 'bg-green-100 text-green-800'
-                            : order.type === 'quiz1' || order.type === 'quiz2'
+                          order.type === 'quiz1' || order.type === 'quiz2'
                             ? 'bg-purple-100 text-purple-800'
                             : 'bg-orange-100 text-orange-800'
                         }`}>

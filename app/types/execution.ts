@@ -1,5 +1,5 @@
 export type ExecutionStatus = 'progress' | 'completed' | 'skipped' | 'failed' | 'timeout';
-export type ExecutionType = 'save' | 'quiz1' | 'quiz2' | 'direction';
+export type ExecutionType = 'quiz1' | 'quiz2' | 'direction';
 export type ExecutionSubType = 'car' | 'bus';
 
 export type MissionTab = 'home' | 'news' | 'menu' | 'review' | 'map' | 'around' | 'info';
@@ -36,7 +36,7 @@ export interface Execution {
 
 export interface ExecutionDetail extends Execution {
   placeId: string;
-  submittedValue?: string;  // 사용자가 제출한 URL (save, direction/bus만)
+  submittedValue?: string;  // 사용자가 제출한 URL (direction/bus만)
   failReason?: string;
   // quiz1/quiz2 타입 필드
   quizzes?: Quiz[];
@@ -51,7 +51,6 @@ export interface ExecutionsResponse {
 }
 
 export const EXECUTION_TYPE_LABELS: Record<ExecutionType, string> = {
-  save: '플레이스 저장',
   quiz1: '유입미션(퀴즈1)',
   quiz2: '유입미션(퀴즈2)',
   direction: '길찾기 미션',

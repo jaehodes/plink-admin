@@ -175,7 +175,6 @@ export default function DashboardClient({ data, error, period, isProduction }: D
     media: [],
     status: { completed: 0, progress: 0, timeout: 0, skipped: 0, failed: 0, total: 0 },
     types: [
-      { key: 'save', completed: 0, target: 0, avgDuration: 0 },
       { key: 'quiz1', completed: 0, target: 0, avgDuration: 0 },
       { key: 'quiz2', completed: 0, target: 0, avgDuration: 0 },
       { key: 'direction', completed: 0, target: 0, avgDuration: 0 },
@@ -186,7 +185,6 @@ export default function DashboardClient({ data, error, period, isProduction }: D
   const d = data ?? emptyData;
   const { hero, orderAgg, status } = d;
   const types = d.types ?? [
-    { key: 'save', completed: 0, target: 0, avgDuration: 0 },
     { key: 'quiz1', completed: 0, target: 0, avgDuration: 0 },
     { key: 'quiz2', completed: 0, target: 0, avgDuration: 0 },
     { key: 'direction', completed: 0, target: 0, avgDuration: 0 },

@@ -82,13 +82,11 @@ function formatDateTime(dateStr: string): string {
 // 제출값이 URL인지 판단
 function isSubmittedValueUrl(report: MissionReportDetail): boolean {
   if (!report.submittedValue?.startsWith('https://')) return false;
-  if (report.missionType === 'save') return true;
   if (report.missionType === 'direction' && report.missionSubType === 'bus') return true;
   return false;
 }
 
 const MISSION_TYPE_COLORS: Record<string, string> = {
-  save: 'bg-blue-100 text-blue-700',
   quiz1: 'bg-violet-100 text-violet-700',
   quiz2: 'bg-purple-100 text-purple-700',
   direction: 'bg-teal-100 text-teal-700',
