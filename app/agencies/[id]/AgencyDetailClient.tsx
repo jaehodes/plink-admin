@@ -9,6 +9,7 @@ import { StatusBadge, TierBadge } from '../components/Badges';
 import BlockModal from '../components/BlockModal';
 import ConvertModal from '../components/ConvertModal';
 import CountModal, { type CountMode } from '../components/CountModal';
+import IssueModal from '../components/IssueModal';
 import LedgerTable from '../components/LedgerTable';
 import Pagination from '../components/Pagination';
 import PriceHistoryTable from '../components/PriceHistoryTable';
@@ -30,7 +31,7 @@ interface AgencyDetailClientProps {
   platformPrices: Prices;
 }
 
-type ModalState = { kind: 'count'; mode: CountMode } | { kind: 'convert' } | { kind: 'block' } | null;
+type ModalState = { kind: 'issue' } | { kind: 'count'; mode: CountMode } | { kind: 'convert' } | { kind: 'block' } | null;
 
 const PRICE_PAGE_SIZE = 20;
 
@@ -107,7 +108,7 @@ export default function AgencyDetailClient({ detail, platformPrices }: AgencyDet
           className={`${actionButtonClass} border-blue-600 bg-blue-600 text-white hover:bg-blue-700`}
           disabled={!isTier1 || user.blocked}
           title={!isTier1 ? '적립은 tier-1만 받을 수 있습니다' : user.blocked ? '차단된 계정에는 적립할 수 없습니다' : undefined}
-          onClick={() => setModal({ kind: 'count', mode: 'issue' })}
+          onClick={() => setModal({ kind: 'issue' })}
         >
           적립
         </button>
@@ -230,9 +231,8 @@ export default function AgencyDetailClient({ detail, platformPrices }: AgencyDet
         </div>
       )}
 
-      {modal?.kind === 'count' && (
-        <CountModal mode={modal.mode} user={user} platformPrices={platformPrices} onClose={closeModal} onDone={afterChange} />
-      )}
+      {modal?.kind === 'issue' && <IssueModal user={user} platformPrices={platformPrices} onClose={closeModal} onDone={afterChange} />}
+      {modal?.kind === 'count' && <CountModal mode={modal.mode} user={user} onClose={closeModal} onDone={afterChange} />}
       {modal?.kind === 'convert' && <ConvertModal user={user} platformPrices={platformPrices} onClose={closeModal} onDone={afterChange} />}
       {modal?.kind === 'block' && <BlockModal user={user} onClose={closeModal} onDone={afterChange} />}
     </div>

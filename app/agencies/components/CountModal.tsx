@@ -3,32 +3,29 @@
 import { useState } from 'react';
 import Modal, { inputClass, labelClass, primaryButtonClass, secondaryButtonClass } from '../../components/Modal';
 import { useToast } from '../../components/Toast';
-import { adjustBalance, issueBalance, reclaimBalance, type AgencyResult } from '../actions';
-import { BALANCE_TYPES, BALANCE_TYPE_LABELS, formatCount, formatPrice, type AgencyUser, type BalanceType } from '../../types/agency';
+import { adjustBalance, reclaimBalance, type AgencyResult } from '../actions';
+import { BALANCE_TYPES, BALANCE_TYPE_LABELS, formatCount, type AgencyUser, type BalanceType } from '../../types/agency';
 
-export type CountMode = 'issue' | 'reclaim' | 'adjust';
+export type CountMode = 'reclaim' | 'adjust';
 
-const MODE_TITLES: Record<CountMode, string> = { issue: '적립', reclaim: '회수', adjust: '수동 조정' };
+const MODE_TITLES: Record<CountMode, string> = { reclaim: '회수', adjust: '수동 조정' };
 
 const CODE_MESSAGES: Record<string, string> = {
   INSUFFICIENT_BALANCE: '보유 건수가 부족합니다. 화면을 새로고침해 현재 건수를 확인해 주세요.',
-  BLOCKED: '차단된 계정에는 적립할 수 없습니다.',
 };
 
 interface CountModalProps {
   mode: CountMode;
   user: AgencyUser;
-  /** 적립 청구 참고 금액을 계산할 플랫폼 단가 */
-  platformPrices: Record<BalanceType, number | null>;
   onClose: () => void;
   onDone: () => void;
 }
 
 /**
- * 건수 적립(tier-1, 새 건수 발행)·회수(이 계정 → 부모)·수동 조정(±). 모두 admin만 하고 memo가 필수다.
+ * 건수 회수(이 계정 → 부모)·수동 조정(±). 모두 admin만 하고 memo가 필수다. 적립은 IssueModal.
  * requestId는 모달을 열 때 한 번 만들고 유형·건수를 바꾸면 새로 만든다. 네트워크 오류 뒤 다시 누르면 같은 값을 보내 중복 처리를 막는다.
  */
-export default function CountModal({ mode, user, platformPrices, onClose, onDone }: CountModalProps) {
+export default function CountModal({ mode, user, onClose, onDone }: CountModalProps) {
   const { showToast } = useToast();
   const [type, setType] = useState<BalanceType>('quiz1');
   const [countText, setCountText] = useState('');
@@ -41,9 +38,8 @@ export default function CountModal({ mode, user, platformPrices, onClose, onDone
 
   const count = Number(countText) || 0;
   const available = user.availableCounts[type] ?? 0;
-  const delta = mode === 'adjust' ? sign * count : mode === 'issue' ? count : -count;
+  const delta = mode === 'adjust' ? sign * count : -count;
   const after = available + delta;
-  const platformPrice = platformPrices[type];
   const parentLabel = user.parent ? `${user.parent.name} (${user.parent.loginId})` : '부모 계정';
 
   const problem =
@@ -64,8 +60,7 @@ export default function CountModal({ mode, user, platformPrices, onClose, onDone
     setError(null);
     try {
       let r: AgencyResult<{ duplicate: boolean; availableCount: number }>;
-      if (mode === 'issue') r = await issueBalance(user.id, { type, count, memo, requestId });
-      else if (mode === 'reclaim') r = await reclaimBalance(user.id, { type, count, memo, sourceEventId: sourceEventId.trim() || undefined, requestId });
+      if (mode === 'reclaim') r = await reclaimBalance(user.id, { type, count, memo, sourceEventId: sourceEventId.trim() || undefined, requestId });
       else r = await adjustBalance(user.id, { type, delta, memo, requestId });
 
       if (!r.ok || !r.data) {
@@ -151,22 +146,13 @@ export default function CountModal({ mode, user, platformPrices, onClose, onDone
           보유 {formatCount(available)}
           {count > 0 && <> → <span className={`font-semibold ${after < 0 ? 'text-red-600' : 'text-slate-900'}`}>{formatCount(after)}</span></>}
         </p>
-        {mode === 'issue' && (
-          <>
-            <p>
-              플랫폼 단가 {formatPrice(platformPrice)}
-              {count > 0 && platformPrice != null && <> · 청구 참고 금액 <span className="font-semibold text-slate-900">{(count * platformPrice).toLocaleString()}원</span></>}
-            </p>
-            <p className="text-slate-400">건수가 새로 생기는 유일한 경로입니다. 대금은 오프라인으로 처리합니다.</p>
-          </>
-        )}
         {mode === 'reclaim' && <p>회수한 건수는 {parentLabel}에게 돌아갑니다.</p>}
         {mode === 'adjust' && <p className="text-slate-400">잘못된 기록을 바로잡을 때만 씁니다. 원장은 수정·삭제되지 않고 조정 항목이 추가됩니다.</p>}
       </div>
 
       <div>
         <label className={labelClass}>메모 (필수)</label>
-        <input className={inputClass} value={memo} onChange={(e) => setMemo(e.target.value)} maxLength={200} placeholder={mode === 'issue' ? '예: 10월 입금분' : '처리 사유'} />
+        <input className={inputClass} value={memo} onChange={(e) => setMemo(e.target.value)} maxLength={200} placeholder="처리 사유" />
       </div>
 
       {(problem || error) && <p className="text-xs text-red-600">{problem || error}</p>}
