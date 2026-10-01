@@ -19,14 +19,12 @@ export interface UserStats {
 export interface OrderAgg {
   orders: number;          // 총 발주 건수
   target: number;          // 총 목표 물량
-  revenue: number;         // 총 매출 (원)
 }
 
 export interface OrdererRow {
   name: string;            // 발주처명
   orders: number;          // 발주 건수
   target: number;          // 목표 물량
-  revenue: number;         // 매출 (원)
 }
 
 // ③ 소속(PC방·앱)별 소화량

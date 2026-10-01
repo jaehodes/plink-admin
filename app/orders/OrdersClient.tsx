@@ -52,11 +52,6 @@ function formatDate(dateStr: string): string {
   });
 }
 
-// 금액 포맷 헬퍼
-function formatPrice(price: number): string {
-  return price.toLocaleString('ko-KR') + '원';
-}
-
 type PeriodFilter = 'today' | 'yesterday' | 'week' | 'month' | 'custom';
 
 const PERIOD_OPTIONS: { key: PeriodFilter | 'all'; label: string }[] = [
@@ -424,9 +419,6 @@ export default function OrdersClient({ initialOrders: orders, initialTotal: tota
                       진행률
                     </th>
                     <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      금액
-                    </th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       상태
                     </th>
                     <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -502,9 +494,6 @@ export default function OrdersClient({ initialOrders: orders, initialTotal: tota
                             }}
                           />
                         </div>
-                      </td>
-                      <td className="px-4 py-4 text-sm text-gray-900">
-                        {formatPrice(order.totalPrice)}
                       </td>
                       <td className="px-4 py-4">
                         <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${

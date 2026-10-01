@@ -55,10 +55,6 @@ function f(n: number): string {
   return n.toLocaleString('ko-KR');
 }
 
-function fmtWon(n: number): string {
-  return `${n.toLocaleString('ko-KR')}원`;
-}
-
 function fmtDur(s: number): string {
   const sec = Math.round(s % 60);
   return s >= 60 ? `${Math.floor(s / 60)}분 ${sec}초` : `${Math.round(s)}초`;
@@ -100,7 +96,7 @@ export default function DashboardClient({ data, error, period, isProduction }: D
   const [customStartDate, setCustomStartDate] = useState(searchParams.get('startDate') || '');
   const [ordererSearchApplied, setOrdererSearchApplied] = useState('');
   const [ordererPage, setOrdererPage] = useState(1);
-  const [ordererSort, setOrdererSort] = useState<{ key: 'orders' | 'target' | 'revenue'; dir: 'asc' | 'desc' } | null>(null);
+  const [ordererSort, setOrdererSort] = useState<{ key: 'orders' | 'target'; dir: 'asc' | 'desc' } | null>(null);
   const [mediaSearchApplied, setMediaSearchApplied] = useState('');
   const [mediaPage, setMediaPage] = useState(1);
   const [mediaSort, setMediaSort] = useState<{ key: 'completed' | 'share' | 'timeoutRate'; dir: 'asc' | 'desc' } | null>(null);
@@ -110,14 +106,8 @@ export default function DashboardClient({ data, error, period, isProduction }: D
     let list = (data?.orderers ?? []).filter(o => !ordererSearchApplied || o.name.includes(ordererSearchApplied));
     if (ordererSort) {
       list = [...list].sort((a, b) => {
-        let av: number, bv: number;
-        if (ordererSort.key === 'revenue') {
-          av = a.revenue;
-          bv = b.revenue;
-        } else {
-          av = a[ordererSort.key];
-          bv = b[ordererSort.key];
-        }
+        const av = a[ordererSort.key];
+        const bv = b[ordererSort.key];
         return ordererSort.dir === 'asc' ? av - bv : bv - av;
       });
     }
@@ -180,7 +170,7 @@ export default function DashboardClient({ data, error, period, isProduction }: D
   const emptyData: DashboardData = {
     hero: { orders: 0, target: 0, completed: 0, timeout: 0 },
     userStats: { newUsers: 0, dailyActiveUsers: 0, avgExecutions: 0 },
-    orderAgg: { orders: 0, target: 0, revenue: 0 },
+    orderAgg: { orders: 0, target: 0 },
     orderers: [],
     media: [],
     status: { completed: 0, progress: 0, timeout: 0, skipped: 0, failed: 0, total: 0 },
@@ -402,15 +392,6 @@ export default function DashboardClient({ data, error, period, isProduction }: D
               </p>
               <p className="text-xl font-extrabold text-slate-800 mt-1">{v(orderAgg?.target)}{hasData && <span className="text-xs font-semibold text-slate-400 ml-1">건</span>}</p>
             </div>
-            <div>
-              <p className="text-xs text-slate-400 flex items-center gap-1">총 매출
-                <span className="relative group">
-                  <svg className="w-3.5 h-3.5 text-slate-300 cursor-help" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                  <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1.5 px-2.5 py-1.5 text-[11px] text-white bg-slate-800 rounded-lg whitespace-nowrap opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity z-10">선택한 기간 내 총 매출액 (Σ totalPrice)</span>
-                </span>
-              </p>
-              <p className="text-xl font-extrabold text-slate-800 mt-1">{v(orderAgg?.revenue, fmtWon)}</p>
-            </div>
           </div>
           <TableSearchInput
             placeholder="발주처 검색"
@@ -422,8 +403,8 @@ export default function DashboardClient({ data, error, period, isProduction }: D
           <table className="w-full text-sm">
             <thead><tr className="text-[11px] text-slate-400 font-semibold uppercase">
               <th className="text-left py-2 px-1">발주처</th>
-              {(['orders', 'target', 'revenue'] as const).map((key) => {
-                const label = key === 'orders' ? '발주' : key === 'target' ? '물량' : '매출';
+              {(['orders', 'target'] as const).map((key) => {
+                const label = key === 'orders' ? '발주' : '물량';
                 const isActive = ordererSort?.key === key;
                 return (
                   <th key={key}
@@ -453,11 +434,10 @@ export default function DashboardClient({ data, error, period, isProduction }: D
                   <td className="py-2 px-1 text-slate-700">{o.name}</td>
                   <td className="py-2 px-1 text-right tabular-nums">{f(o.orders)}</td>
                   <td className="py-2 px-1 text-right tabular-nums">{f(o.target)}</td>
-                  <td className="py-2 px-1 text-right tabular-nums">{fmtWon(o.revenue)}</td>
                 </tr>
               ))}
               {pagedOrderers.length === 0 && (
-                <tr><td colSpan={4} className="py-4 text-center text-xs text-slate-400">{ordererSearchApplied ? '검색 결과가 없습니다' : '데이터가 없습니다'}</td></tr>
+                <tr><td colSpan={3} className="py-4 text-center text-xs text-slate-400">{ordererSearchApplied ? '검색 결과가 없습니다' : '데이터가 없습니다'}</td></tr>
               )}
             </tbody>
           </table>
@@ -497,7 +477,7 @@ export default function DashboardClient({ data, error, period, isProduction }: D
                 <span className="text-xl">{['🥇', '🥈', '🥉'][i]}</span>
                 <div>
                   <p className="text-sm font-bold text-slate-800">{o.name}</p>
-                  <p className="text-[11px] text-slate-400 tabular-nums">{f(o.orders)}건 · {fmtWon(o.revenue)}</p>
+                  <p className="text-[11px] text-slate-400 tabular-nums">{f(o.orders)}건 · 물량 {f(o.target)}</p>
                 </div>
               </div>
             ))}

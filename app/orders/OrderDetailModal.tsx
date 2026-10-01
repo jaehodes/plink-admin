@@ -32,11 +32,6 @@ function formatDate(dateStr: string): string {
   });
 }
 
-// 금액 포맷 헬퍼
-function formatPrice(price: number): string {
-  return price.toLocaleString('ko-KR') + '원';
-}
-
 // 탭 라벨
 const DEACTIVATE_REASONS = [
   '퀴즈 정답의 길이가 너무 깁니다.',
@@ -358,10 +353,6 @@ export default function OrderDetailModal({ orderId, onClose, onSuccess }: OrderD
                 {order.deferredChanges?.endDate && (
                   <p className="text-xs text-amber-600 mt-1">예정: ~ {formatDate(order.deferredChanges.endDate)}</p>
                 )}
-              </div>
-              <div className="bg-slate-50 rounded-xl p-4">
-                <p className="text-xs text-slate-400 font-medium mb-1">총 금액</p>
-                <p className="text-lg font-bold text-slate-800">{formatPrice(order.totalPrice)}</p>
               </div>
               <div className="bg-slate-50 rounded-xl p-4">
                 <p className="text-xs text-slate-400 font-medium mb-1">발주일</p>

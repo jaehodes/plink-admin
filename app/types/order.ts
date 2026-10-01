@@ -55,7 +55,6 @@ export interface Order {
   totalDailyCount: number;
   totalCount: number;
   completedCount: number;
-  totalPrice: number;
   status: OrderStatus;
   createdAt: string;
   quizzes?: Quiz[];
