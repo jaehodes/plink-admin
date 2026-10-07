@@ -79,7 +79,7 @@ export default function LedgerTable({ userId, reloadKey = 0 }: LedgerTableProps)
       <div className="p-4 border-b border-slate-100 flex flex-wrap items-center gap-2">
         <h3 className="text-sm font-semibold text-slate-800 mr-2">잔액 변동</h3>
         <select className={selectClass} value={type} onChange={(e) => { setType(e.target.value as 'all' | BalanceType); setPage(1); }}>
-          <option value="all">전체 유형</option>
+          <option value="all">전체 상품 유형</option>
           {BALANCE_TYPES.map((t) => <option key={t} value={t}>{BALANCE_TYPE_SHORT_LABELS[t]}</option>)}
         </select>
         <select className={selectClass} value={kind} onChange={(e) => { setKind(e.target.value as 'all' | LedgerKind); setPage(1); }}>
@@ -94,7 +94,7 @@ export default function LedgerTable({ userId, reloadKey = 0 }: LedgerTableProps)
             <tr>
               <th className="px-4 py-2.5 text-left font-medium">일시</th>
               <th className="px-4 py-2.5 text-left font-medium">종류</th>
-              <th className="px-4 py-2.5 text-left font-medium">유형</th>
+              <th className="px-4 py-2.5 text-left font-medium">상품 유형</th>
               <th className="px-4 py-2.5 text-right font-medium">변동</th>
               <th className="px-4 py-2.5 text-right font-medium">변동 후</th>
               <th className="px-4 py-2.5 text-left font-medium">상대 계정</th>

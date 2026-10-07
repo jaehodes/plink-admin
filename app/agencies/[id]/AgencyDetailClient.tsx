@@ -121,7 +121,7 @@ export default function AgencyDetailClient({ detail, platformPrices }: AgencyDet
           회수 (→ 상위 계정)
         </button>
         <button className={`${actionButtonClass} border-slate-300 text-slate-700 hover:bg-slate-50`} onClick={() => setModal({ kind: 'convert' })}>
-          유형 전환
+          상품 유형 전환
         </button>
         <button className={`${actionButtonClass} border-slate-300 text-slate-700 hover:bg-slate-50`} onClick={() => setModal({ kind: 'count', mode: 'adjust' })}>
           수동 조정
@@ -272,7 +272,7 @@ function PriceHistorySection({ userId, isTier1 }: { userId: string; isTier1: boo
       <div className="p-4 border-b border-slate-100 flex flex-wrap items-center gap-2">
         <h3 className="text-sm font-semibold text-slate-800 mr-2">단가 이력</h3>
         <select className={selectClass} value={type} onChange={(e) => { setType(e.target.value as 'all' | BalanceType); setPage(1); }}>
-          <option value="all">전체 유형</option>
+          <option value="all">전체 상품 유형</option>
           {BALANCE_TYPES.map((t) => <option key={t} value={t}>{BALANCE_TYPE_SHORT_LABELS[t]}</option>)}
         </select>
         {isTier1 && <span className="text-xs text-slate-400">tier-1은 플랫폼 단가를 씁니다. <Link href="/order-prices" className="text-blue-600 hover:underline">플랫폼 단가 이력</Link></span>}

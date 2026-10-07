@@ -105,7 +105,7 @@ export default function PlatformPricesClient() {
         <div className="p-4 border-b border-slate-100 flex flex-wrap items-center gap-2">
           <h3 className="text-sm font-semibold text-slate-800 mr-2">변경 이력</h3>
           <select className={selectClass} value={type} onChange={(e) => { setType(e.target.value as 'all' | BalanceType); setPage(1); }}>
-            <option value="all">전체 유형</option>
+            <option value="all">전체 상품 유형</option>
             {BALANCE_TYPES.map((t) => <option key={t} value={t}>{BALANCE_TYPE_SHORT_LABELS[t]}</option>)}
           </select>
           <span className="text-xs text-slate-400 ml-auto">총 {total.toLocaleString()}건</span>

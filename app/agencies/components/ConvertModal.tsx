@@ -34,8 +34,8 @@ export default function ConvertModal({ user, platformPrices, onClose, onDone }: 
   const fromAvailable = user.availableCounts[fromType] ?? 0;
 
   const problem =
-    (fromType === toType && '원래 유형과 받을 유형이 같습니다.') ||
-    ((!fromPrice || !toPrice) && '플랫폼 단가가 정해지지 않은 유형입니다.') ||
+    (fromType === toType && '원래 상품 유형과 받을 상품 유형이 같습니다.') ||
+    ((!fromPrice || !toPrice) && '플랫폼 단가가 정해지지 않은 상품 유형입니다.') ||
     (fromCount != null && fromCount > fromAvailable && `${BALANCE_TYPE_LABELS[fromType]} 보유 건수(${formatCount(fromAvailable)})가 부족합니다. ${formatCount(fromCount)}이 필요합니다.`) ||
     null;
   const canSubmit = toCount >= 1 && !!memo.trim() && !problem;
@@ -65,7 +65,7 @@ export default function ConvertModal({ user, platformPrices, onClose, onDone }: 
 
   return (
     <Modal
-      title={`유형 전환 — ${user.name} (${user.loginId})`}
+      title={`상품 유형 전환 — ${user.name} (${user.loginId})`}
       onClose={onClose}
       busy={isSubmitting}
       footer={
@@ -79,13 +79,13 @@ export default function ConvertModal({ user, platformPrices, onClose, onDone }: 
     >
       <div className="grid grid-cols-2 gap-3">
         <div>
-          <label className={labelClass}>원래 유형 (빠짐)</label>
+          <label className={labelClass}>원래 상품 유형 (빠짐)</label>
           <select className={`${selectClass} w-full`} value={fromType} onChange={(e) => { setFromType(e.target.value as BalanceType); renew(); }}>
             {BALANCE_TYPES.map((t) => <option key={t} value={t}>{BALANCE_TYPE_LABELS[t]} · 보유 {formatCount(user.availableCounts[t] ?? 0)}</option>)}
           </select>
         </div>
         <div>
-          <label className={labelClass}>받을 유형</label>
+          <label className={labelClass}>받을 상품 유형</label>
           <select className={`${selectClass} w-full`} value={toType} onChange={(e) => { setToType(e.target.value as BalanceType); renew(); }}>
             {BALANCE_TYPES.map((t) => <option key={t} value={t}>{BALANCE_TYPE_LABELS[t]} · 보유 {formatCount(user.availableCounts[t] ?? 0)}</option>)}
           </select>
@@ -106,7 +106,7 @@ export default function ConvertModal({ user, platformPrices, onClose, onDone }: 
             <span className="font-semibold text-blue-600">{BALANCE_TYPE_LABELS[toType]} +{formatCount(toCount)}</span>
           </p>
         )}
-        <p className="text-slate-400">빠질 건수는 올림(받을 건수 × 받을 유형 단가 ÷ 원래 유형 단가)입니다.</p>
+        <p className="text-slate-400">빠질 건수는 올림(받을 건수 × 받을 상품 유형 단가 ÷ 원래 상품 유형 단가)입니다.</p>
       </div>
 
       <div>

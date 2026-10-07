@@ -94,7 +94,7 @@ export default function CountModal({ mode, user, onClose, onDone }: CountModalPr
       }
     >
       <div>
-        <label className={labelClass}>유형</label>
+        <label className={labelClass}>상품 유형</label>
         <div className="grid grid-cols-3 gap-2">
           {BALANCE_TYPES.map((t) => (
             <button
@@ -137,7 +137,7 @@ export default function CountModal({ mode, user, onClose, onDone }: CountModalPr
         <div>
           <label className={labelClass}>되돌릴 판매 이벤트 id (선택)</label>
           <input className={`${inputClass} font-mono`} value={sourceEventId} onChange={(e) => changeSource(e.target.value)} placeholder="특정 판매를 되돌릴 때만" />
-          <p className="text-[11px] text-slate-400 mt-1">같은 부모 → 이 계정, 같은 유형의 판매여야 합니다. 원장 화면에서 확인할 수 있습니다.</p>
+          <p className="text-[11px] text-slate-400 mt-1">같은 부모 → 이 계정, 같은 상품 유형의 판매여야 합니다. 원장 화면에서 확인할 수 있습니다.</p>
         </div>
       )}
 

@@ -19,7 +19,7 @@ export default function PriceHistoryTable({ prices, isLoading, error, platform =
         <thead className="bg-slate-50 text-xs text-slate-500">
           <tr>
             <th className="px-4 py-2.5 text-left font-medium">일시</th>
-            <th className="px-4 py-2.5 text-left font-medium">유형</th>
+            <th className="px-4 py-2.5 text-left font-medium">상품 유형</th>
             <th className="px-4 py-2.5 text-right font-medium">단가</th>
             {!platform && <th className="px-4 py-2.5 text-right font-medium">설정한 부모 단가</th>}
             <th className="px-4 py-2.5 text-left font-medium">역전 발생</th>

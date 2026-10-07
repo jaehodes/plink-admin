@@ -171,7 +171,7 @@ export default function BalanceEventsClient({ initialUserId, initialKind }: { in
             {LEDGER_KIND_OPTIONS.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
           </select>
           <select className={selectClass} value={type} onChange={(e) => { setType(e.target.value as 'all' | BalanceType); setPage(1); }}>
-            <option value="all">전체 유형</option>
+            <option value="all">전체 상품 유형</option>
             {BALANCE_TYPES.map((t) => <option key={t} value={t}>{BALANCE_TYPE_SHORT_LABELS[t]}</option>)}
           </select>
           {userId && (
@@ -197,7 +197,7 @@ export default function BalanceEventsClient({ initialUserId, initialKind }: { in
               <tr>
                 <th className="px-4 py-2.5 text-left font-medium">일시</th>
                 <th className="px-4 py-2.5 text-left font-medium">종류</th>
-                <th className="px-4 py-2.5 text-left font-medium">유형</th>
+                <th className="px-4 py-2.5 text-left font-medium">상품 유형</th>
                 <th className="px-4 py-2.5 text-right font-medium">건수</th>
                 <th className="px-4 py-2.5 text-left font-medium">보낸 쪽</th>
                 <th className="px-4 py-2.5 text-left font-medium">받은 쪽</th>

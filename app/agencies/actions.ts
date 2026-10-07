@@ -279,7 +279,7 @@ export async function convertBalance(
       body: { fromType: input.fromType, toType: input.toType, toCount: input.toCount, memo: encodeRequired(input.memo), requestId: input.requestId },
     },
     (r) => ({ eventId: r.eventId, duplicate: r.duplicate, fromCount: r.fromCount, toCount: r.toCount, availableCounts: r.availableCounts }),
-    '유형을 전환하지 못했습니다.',
+    '상품 유형을 전환하지 못했습니다.',
   );
 }
 

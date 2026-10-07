@@ -127,7 +127,7 @@ export default function IssueModal({ user, platformPrices, onClose, onDone }: Is
       showToast(`${user.loginId} 적립 완료 (${summary})`, 'success');
       onDone();
     } catch {
-      setError('처리 중 오류가 발생했습니다. 다시 누르면 남은 유형만 같은 요청으로 처리됩니다(중복 처리되지 않음).');
+      setError('처리 중 오류가 발생했습니다. 다시 누르면 남은 상품 유형만 같은 요청으로 처리됩니다(중복 처리되지 않음).');
     } finally {
       setIsSubmitting(false);
     }
@@ -149,7 +149,7 @@ export default function IssueModal({ user, platformPrices, onClose, onDone }: Is
         <>
           <button className={secondaryButtonClass} onClick={close} disabled={isSubmitting}>{started ? '닫기' : '취소'}</button>
           <button className={primaryButtonClass} onClick={submit} disabled={isSubmitting || !canSubmit}>
-            {isSubmitting ? '처리 중...' : started ? '남은 유형 적립하기' : '적립하기'}
+            {isSubmitting ? '처리 중...' : started ? '남은 상품 유형 적립하기' : '적립하기'}
           </button>
         </>
       }
@@ -185,13 +185,13 @@ export default function IssueModal({ user, platformPrices, onClose, onDone }: Is
             </button>
           ))}
         </div>
-        <p className="text-[11px] text-slate-400 mt-1">균등 분할은 금액을 유형 수만큼 나눠 각 단가로 계산합니다. 건수는 내림이라 입력 금액을 넘지 않습니다.</p>
+        <p className="text-[11px] text-slate-400 mt-1">균등 분할은 금액을 상품 유형 수만큼 나눠 각 단가로 계산합니다. 건수는 내림이라 입력 금액을 넘지 않습니다.</p>
       </div>
 
       <table className="w-full text-sm">
         <thead>
           <tr className="text-[11px] text-slate-400 font-semibold border-b border-slate-200">
-            <th className="text-left py-2">유형</th>
+            <th className="text-left py-2">상품 유형</th>
             <th className="text-right py-2">단가</th>
             <th className="text-right py-2">보유</th>
             <th className="text-right py-2 w-36">적립 건수</th>
@@ -247,7 +247,7 @@ export default function IssueModal({ user, platformPrices, onClose, onDone }: Is
       <div>
         <label className={labelClass}>메모 (필수)</label>
         <input className={inputClass} value={memo} onChange={(e) => setMemo(e.target.value)} maxLength={200} placeholder="예: 10월 입금분" disabled={started} />
-        <p className="text-[11px] text-slate-400 mt-1">적립하는 모든 유형에 같은 메모가 남습니다.</p>
+        <p className="text-[11px] text-slate-400 mt-1">적립하는 모든 상품 유형에 같은 메모가 남습니다.</p>
       </div>
 
       {error && <p className="text-xs text-red-600">{error}</p>}
