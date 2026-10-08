@@ -7,12 +7,12 @@ interface ModalProps {
   onClose: () => void;
   children: React.ReactNode;
   footer?: React.ReactNode;
-  /** 처리 중에는 바깥 클릭·ESC·닫기 버튼으로 닫지 않는다 */
+  /** 처리 중에는 ESC·닫기 버튼으로 닫지 않는다 */
   busy?: boolean;
   maxWidth?: 'max-w-md' | 'max-w-lg' | 'max-w-2xl';
 }
 
-/** 입력 폼 모달. z-[60]이라 ConfirmModal(z-[70])이 그 위에 뜬다 */
+/** 입력 폼 모달. 바깥 클릭으로는 닫지 않는다(입력값 보호). z-[60]이라 ConfirmModal(z-[70])이 그 위에 뜬다 */
 export default function Modal({ title, onClose, children, footer, busy = false, maxWidth = 'max-w-md' }: ModalProps) {
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -23,8 +23,8 @@ export default function Modal({ title, onClose, children, footer, busy = false, 
   }, [busy, onClose]);
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[60] p-4" onClick={() => !busy && onClose()}>
-      <div className={`bg-white rounded-xl shadow-xl w-full ${maxWidth} overflow-hidden`} onClick={(e) => e.stopPropagation()}>
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[60] p-4">
+      <div className={`bg-white rounded-xl shadow-xl w-full ${maxWidth} overflow-hidden`}>
         <div className="px-6 py-4 border-b border-slate-200 flex items-center justify-between">
           <h2 className="text-lg font-bold text-gray-900">{title}</h2>
           <button onClick={onClose} disabled={busy} className="p-1 hover:bg-slate-100 rounded-full transition-colors disabled:opacity-50" aria-label="닫기">
