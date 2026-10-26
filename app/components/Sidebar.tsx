@@ -11,6 +11,7 @@ export default function Sidebar() {
       items: [
         { name: '대시보드', href: '/dashboard', color: 'bg-blue-500' },
         { name: '발주 목록', href: '/orders', color: 'bg-purple-500' },
+        { name: '플레이스', href: '/places', color: 'bg-fuchsia-500' },
         { name: '퀴즈/주차장', href: '/quizzes', color: 'bg-violet-500' },
         { name: '수행 목록', href: '/executions', color: 'bg-teal-500' },
         { name: '문의 목록', href: '/reports', color: 'bg-orange-500' },
