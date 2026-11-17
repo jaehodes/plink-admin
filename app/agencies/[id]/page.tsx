@@ -4,6 +4,7 @@ import Layout from "../../components/Layout";
 import { requireAuth } from "../../lib/auth-server";
 import { getAgencyDetail, getPlatformPrices } from "../actions";
 import AgencyDetailClient from "./AgencyDetailClient";
+import { byBalanceType } from "../../types/agency";
 
 export const metadata: Metadata = {
   title: '대리점 상세 - 플링크 관리자',
@@ -29,7 +30,7 @@ export default async function AgencyDetailPage({ params }: PageProps) {
           <AgencyDetailClient
             key={detail.data.user.id}
             detail={detail.data}
-            platformPrices={platform.data?.current ?? { quiz1: null, quiz2: null, direction: null }}
+            platformPrices={platform.data?.current ?? byBalanceType(() => null)}
           />
         ) : (
           <div className="bg-white rounded-xl border border-slate-200 p-10 text-center space-y-3">

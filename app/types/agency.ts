@@ -5,29 +5,35 @@
  * - API의 이름·memo·사유는 base64이며, Server Action(actions.ts)에서 복원해 넘긴다.
  */
 
-export type BalanceType = 'quiz1' | 'quiz2' | 'direction';
+export type BalanceType = 'quiz1' | 'quiz2' | 'direction' | 'shopping';
 
-export const BALANCE_TYPES: BalanceType[] = ['quiz1', 'quiz2', 'direction'];
+export const BALANCE_TYPES: BalanceType[] = ['quiz1', 'quiz2', 'direction', 'shopping'];
 
 export const BALANCE_TYPE_LABELS: Record<BalanceType, string> = {
   quiz1: '유입미션(퀴즈1)',
   quiz2: '유입미션(퀴즈2)',
   direction: '길찾기 미션',
+  shopping: '쇼핑',
 };
 
 export const BALANCE_TYPE_SHORT_LABELS: Record<BalanceType, string> = {
   quiz1: '퀴즈1',
   quiz2: '퀴즈2',
   direction: '길찾기',
+  shopping: '쇼핑',
 };
 
-export const isBalanceType = (v: unknown): v is BalanceType => v === 'quiz1' || v === 'quiz2' || v === 'direction';
+export const isBalanceType = (v: unknown): v is BalanceType => BALANCE_TYPES.includes(v as BalanceType);
 
 /** 유형별 건수 */
 export type Counts = Record<BalanceType, number>;
 
 /** 유형별 단가(원). 정해지지 않은 유형은 null */
 export type Prices = Record<BalanceType, number | null>;
+
+/** 모든 유형을 같은 값으로 채운 객체 (건수 0, 단가 null, 입력칸 '' 등) */
+export const byBalanceType = <T,>(make: (t: BalanceType) => T): Record<BalanceType, T> =>
+  Object.fromEntries(BALANCE_TYPES.map((t) => [t, make(t)])) as Record<BalanceType, T>;
 
 export type ActorType = 'admin' | 'order_user' | 'system';
 

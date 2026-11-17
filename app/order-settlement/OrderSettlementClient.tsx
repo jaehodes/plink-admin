@@ -2,7 +2,7 @@
 
 import { Fragment, useEffect, useMemo, useState } from 'react';
 import { selectClass, secondaryButtonClass } from '../components/Modal';
-import { BALANCE_TYPES, BALANCE_TYPE_SHORT_LABELS, type Counts } from '../types/agency';
+import { BALANCE_TYPES, BALANCE_TYPE_SHORT_LABELS, byBalanceType, type Counts } from '../types/agency';
 import { kstToday } from '../utils/kstDate';
 import { getMonthlySettlement, type MonthlySettlement, type SettlementAccount } from './actions';
 
@@ -10,9 +10,9 @@ const cardClass = 'bg-white rounded-xl border border-slate-200 overflow-hidden';
 const thClass = 'px-3 py-2 font-medium';
 const tdNum = 'px-3 py-2 text-right tabular-nums';
 
-const zero = (): Counts => ({ quiz1: 0, quiz2: 0, direction: 0 });
-const add = (a: Counts, b: Counts): Counts => ({ quiz1: a.quiz1 + b.quiz1, quiz2: a.quiz2 + b.quiz2, direction: a.direction + b.direction });
-const sum = (c: Counts) => c.quiz1 + c.quiz2 + c.direction;
+const zero = (): Counts => byBalanceType(() => 0);
+const add = (a: Counts, b: Counts): Counts => byBalanceType((t) => a[t] + b[t]);
+const sum = (c: Counts) => BALANCE_TYPES.reduce((s, t) => s + c[t], 0);
 
 /** "2026-11-01" → "11월 1일" */
 const monthDay = (date: string) => `${Number(date.slice(5, 7))}월 ${Number(date.slice(8, 10))}일`;

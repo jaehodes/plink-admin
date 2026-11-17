@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Modal, { inputClass, labelClass, primaryButtonClass, secondaryButtonClass } from '../../components/Modal';
 import { useToast } from '../../components/Toast';
 import { issueBalance } from '../actions';
-import { BALANCE_TYPES, BALANCE_TYPE_LABELS, formatCount, formatPrice, type AgencyUser, type BalanceType } from '../../types/agency';
+import { BALANCE_TYPES, BALANCE_TYPE_LABELS, byBalanceType, formatCount, formatPrice, type AgencyUser, type BalanceType } from '../../types/agency';
 
 const CODE_MESSAGES: Record<string, string> = {
   BLOCKED: '차단된 계정에는 적립할 수 없습니다.',
@@ -15,12 +15,8 @@ type Preset = 'even' | BalanceType | 'manual';
 
 type Counts = Record<BalanceType, string>;
 
-const emptyCounts = (): Counts => ({ quiz1: '', quiz2: '', direction: '' });
-const newRequestIds = (): Record<BalanceType, string> => ({
-  quiz1: crypto.randomUUID(),
-  quiz2: crypto.randomUUID(),
-  direction: crypto.randomUUID(),
-});
+const emptyCounts = (): Counts => byBalanceType(() => '');
+const newRequestIds = (): Record<BalanceType, string> => byBalanceType(() => crypto.randomUUID());
 
 const toNumber = (text: string) => Number(text) || 0;
 const digitsOnly = (v: string) => v.replace(/[^0-9]/g, '');

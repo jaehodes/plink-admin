@@ -11,6 +11,7 @@ import {
   BALANCE_TYPES,
   BALANCE_TYPE_LABELS,
   BALANCE_TYPE_SHORT_LABELS,
+  byBalanceType,
   formatPrice,
   type BalanceType,
   type PriceChange,
@@ -132,11 +133,9 @@ export default function PlatformPricesClient() {
 
 function EditPricesModal({ current, onClose, onDone }: { current: Prices; onClose: () => void; onDone: (changed: PriceChange) => void }) {
   const { showToast } = useToast();
-  const [values, setValues] = useState<Record<BalanceType, string>>(() => ({
-    quiz1: current.quiz1 != null ? String(current.quiz1) : '',
-    quiz2: current.quiz2 != null ? String(current.quiz2) : '',
-    direction: current.direction != null ? String(current.direction) : '',
-  }));
+  const [values, setValues] = useState<Record<BalanceType, string>>(() =>
+    byBalanceType((t) => (current[t] != null ? String(current[t]) : '')),
+  );
   const [memo, setMemo] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
