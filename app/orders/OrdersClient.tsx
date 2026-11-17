@@ -476,7 +476,7 @@ export default function OrdersClient({ initialOrders: orders, initialTotal: tota
                       <td className="px-4 py-4 text-sm text-gray-900">
                         <div>{formatDate(order.startDate)}</div>
                         <div className="text-gray-500">~ {formatDate(order.endDate)}</div>
-                        {order.deferredChanges?.endDate && (
+                        {order.deferredChanges?.endDate && order.deferredChanges.endDate !== order.endDate && (
                           <div className="text-xs text-amber-600 mt-1">
                             예정: ~ {formatDate(order.deferredChanges.endDate)}
                           </div>
@@ -484,7 +484,7 @@ export default function OrdersClient({ initialOrders: orders, initialTotal: tota
                       </td>
                       <td className="px-4 py-4 text-sm text-gray-900">
                         {order.totalDailyCount.toLocaleString()}건
-                        {order.deferredChanges?.totalDailyCount !== undefined && (
+                        {order.deferredChanges?.totalDailyCount !== undefined && order.deferredChanges.totalDailyCount !== order.totalDailyCount && (
                           <div className="text-xs text-amber-600 mt-0.5">
                             예정: {order.deferredChanges.totalDailyCount.toLocaleString()}건
                           </div>

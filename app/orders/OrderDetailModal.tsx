@@ -337,7 +337,7 @@ export default function OrderDetailModal({ orderId, onClose, onSuccess }: OrderD
                   <div className="text-center">
                     <p className="text-slate-400 text-xs">일일</p>
                     <p className="font-bold text-slate-700">{order.totalDailyCount.toLocaleString()}</p>
-                    {order.deferredChanges?.totalDailyCount !== undefined && (
+                    {order.deferredChanges?.totalDailyCount !== undefined && order.deferredChanges.totalDailyCount !== order.totalDailyCount && (
                       <p className="text-xs text-amber-600 mt-0.5">예정: {order.deferredChanges.totalDailyCount.toLocaleString()}</p>
                     )}
                   </div>
@@ -353,7 +353,7 @@ export default function OrderDetailModal({ orderId, onClose, onSuccess }: OrderD
                 <p className="text-xs text-slate-500 mt-0.5">
                   {Math.ceil((new Date(order.endDate).getTime() - new Date(order.startDate).getTime()) / (1000 * 60 * 60 * 24)) + 1}일
                 </p>
-                {order.deferredChanges?.endDate && (
+                {order.deferredChanges?.endDate && order.deferredChanges.endDate !== order.endDate && (
                   <p className="text-xs text-amber-600 mt-1">예정: ~ {formatDate(order.deferredChanges.endDate)}</p>
                 )}
               </div>
@@ -361,10 +361,13 @@ export default function OrderDetailModal({ orderId, onClose, onSuccess }: OrderD
                 <p className="text-xs text-slate-400 font-medium mb-1">발주일</p>
                 <p className="text-sm font-semibold text-slate-700">{formatDate(order.createdAt)}</p>
               </div>
-              <div className="bg-slate-50 rounded-xl p-4">
-                <p className="text-xs text-slate-400 font-medium mb-1">플레이스 ID</p>
-                <p className="text-sm font-mono text-slate-600">{order.placeId}</p>
-              </div>
+              {/* 쇼핑 발주는 장소가 없다(상품 MID는 아래 "상품"에 있다) */}
+              {!order.shopping && (
+                <div className="bg-slate-50 rounded-xl p-4">
+                  <p className="text-xs text-slate-400 font-medium mb-1">플레이스 ID</p>
+                  <p className="text-sm font-mono text-slate-600">{order.placeId}</p>
+                </div>
+              )}
             </div>
 
             {/* 발주사 */}
