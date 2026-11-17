@@ -44,5 +44,6 @@ export interface StatsPeriodItem {
 export interface StatsPcbangItem {
   pcbang_id: string;
   name: string;
-  count: number;
+  count: number;          // 수행 수 (플레이스 + 쇼핑)
+  shopping_count?: number; // count 중 쇼핑 수 (type=pcbang)
 }

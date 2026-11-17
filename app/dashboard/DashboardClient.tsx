@@ -178,6 +178,7 @@ export default function DashboardClient({ data, error, period, isProduction }: D
       { key: 'quiz1', completed: 0, target: 0, avgDuration: 0 },
       { key: 'quiz2', completed: 0, target: 0, avgDuration: 0 },
       { key: 'direction', completed: 0, target: 0, avgDuration: 0 },
+      { key: 'shopping', completed: 0, target: 0, avgDuration: 0 },
     ],
     topRankers: [],
   };
@@ -188,6 +189,7 @@ export default function DashboardClient({ data, error, period, isProduction }: D
     { key: 'quiz1', completed: 0, target: 0, avgDuration: 0 },
     { key: 'quiz2', completed: 0, target: 0, avgDuration: 0 },
     { key: 'direction', completed: 0, target: 0, avgDuration: 0 },
+    { key: 'shopping', completed: 0, target: 0, avgDuration: 0 },
   ];
   const unknownText = '알수없음';
   const v = (n: number | undefined, formatter?: (n: number) => string) => {

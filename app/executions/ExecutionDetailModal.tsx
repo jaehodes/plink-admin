@@ -37,7 +37,18 @@ const TYPE_STYLES: Record<string, { bg: string; text: string }> = {
   quiz1: { bg: 'bg-violet-50', text: 'text-violet-700' },
   quiz2: { bg: 'bg-purple-50', text: 'text-purple-700' },
   direction: { bg: 'bg-amber-50', text: 'text-amber-700' },
+  shopping: { bg: 'bg-orange-50', text: 'text-orange-700' },
 };
+
+const CARD_KIND_LABELS: Record<string, string> = {
+  catalog: '가격비교(원부)',
+  product: '상품',
+};
+
+/** 수행 결과의 예/아니오 값. 보내지 않은 항목은 '-' */
+function yesNo(v: boolean | null | undefined): string {
+  return v == null ? '-' : v ? '예' : '아니오';
+}
 
 // 탭 라벨
 const TAB_LABELS: Record<string, string> = {
@@ -181,7 +192,7 @@ export default function ExecutionDetailModal({ executionId, onClose }: Execution
                   수행 상세
                 </h2>
                 <p className="text-slate-300 text-sm mt-1">
-                  {decodeBase64(execution.placeName)}
+                  {decodeBase64(execution.shopping ? execution.shopping.productName : execution.placeName)}
                 </p>
               </div>
               <button
@@ -223,7 +234,8 @@ export default function ExecutionDetailModal({ executionId, onClose }: Execution
               </div>
             </div>
 
-            {/* 수행 정보 */}
+            {/* 수행 정보 (플레이스) */}
+            {execution.type !== 'shopping' && (
             <div className="bg-slate-50 rounded-xl p-4">
               <h3 className="text-sm font-semibold text-slate-700 mb-3">수행 정보</h3>
               <div className="grid grid-cols-2 gap-4">
@@ -282,6 +294,103 @@ export default function ExecutionDetailModal({ executionId, onClose }: Execution
                 </div>
               )}
             </div>
+            )}
+
+            {/* 쇼핑 미션 정보 (모노리포 docs/shopping.md "배정·수행") */}
+            {execution.shopping && (
+              <div className="bg-orange-50 rounded-xl p-4">
+                <h3 className="text-sm font-semibold text-orange-700 mb-3">쇼핑 미션 정보</h3>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="col-span-2">
+                    <p className="text-xs text-orange-500">상품</p>
+                    <p className="text-sm font-medium text-orange-900">{decodeBase64(execution.shopping.productName)}</p>
+                    <p className="text-xs text-orange-700 mt-0.5">{decodeBase64(execution.shopping.sellerName)}</p>
+                  </div>
+                  <div>
+                    <p className="text-xs text-orange-500">상품 MID</p>
+                    <p className="text-sm font-medium text-orange-900">{execution.shopping.productMid}</p>
+                  </div>
+                  <div>
+                    <p className="text-xs text-orange-500">상품 유형</p>
+                    <p className="text-sm font-medium text-orange-900">
+                      {execution.shopping.catalogMid ? `가격비교 (원부 MID ${execution.shopping.catalogMid})` : '단독'}
+                    </p>
+                  </div>
+                  <div className="col-span-2">
+                    <p className="text-xs text-orange-500">흐름</p>
+                    <p className="text-sm font-medium text-orange-900 break-all">
+                      {execution.shopping.landingUrl ? `랜딩 · ${execution.shopping.landingUrl}` : '통합검색'}
+                    </p>
+                  </div>
+                  {execution.shopping.keyword && (
+                    <div>
+                      <p className="text-xs text-orange-500">검색 키워드</p>
+                      <p className="text-sm font-medium text-orange-900">{decodeBase64(execution.shopping.keyword)}</p>
+                    </div>
+                  )}
+                  {execution.shopping.keyword && (
+                    <div>
+                      <p className="text-xs text-orange-500">대체 키워드</p>
+                      <p className="text-sm font-medium text-orange-900">
+                        {execution.shopping.fallbackKeyword ? decodeBase64(execution.shopping.fallbackKeyword) : '-'}
+                      </p>
+                    </div>
+                  )}
+                  <div className="col-span-2">
+                    <a href={execution.shopping.productUrl} target="_blank" rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 text-sm text-blue-600 hover:text-blue-700 font-medium break-all">
+                      상품 링크
+                      <svg className="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                      </svg>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* 쇼핑 수행 결과: 완료 때 agent가 보낸 것. 찾은 위치는 수행하며 본 것이고 순위 확인이 아니다 */}
+            {execution.type === 'shopping' && execution.status === 'completed' && (
+              <div className="bg-slate-50 rounded-xl p-4">
+                <h3 className="text-sm font-semibold text-slate-700 mb-3">수행 결과</h3>
+                {execution.result ? (
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <p className="text-xs text-slate-500">검색한 키워드</p>
+                      <p className="text-sm font-medium text-slate-900">{execution.result.keyword ? decodeBase64(execution.result.keyword) : '-'}</p>
+                    </div>
+                    <div>
+                      <p className="text-xs text-slate-500">대체 키워드 사용</p>
+                      <p className="text-sm font-medium text-slate-900">{yesNo(execution.result.usedFallback)}</p>
+                    </div>
+                    <div>
+                      <p className="text-xs text-slate-500">찾은 위치</p>
+                      <p className="text-sm font-medium text-slate-900">
+                        {execution.result.page != null ? `${execution.result.page}페이지 ${execution.result.position ?? '-'}번째` : '-'}
+                      </p>
+                    </div>
+                    <div>
+                      <p className="text-xs text-slate-500">카드</p>
+                      <p className="text-sm font-medium text-slate-900">
+                        {execution.result.cardKind ? CARD_KIND_LABELS[execution.result.cardKind] || execution.result.cardKind : '-'}
+                      </p>
+                    </div>
+                    <div>
+                      <p className="text-xs text-slate-500">리뷰 탭</p>
+                      <p className="text-sm font-medium text-slate-900">{yesNo(execution.result.reviewTab)}</p>
+                    </div>
+                    <div>
+                      <p className="text-xs text-slate-500">체류 시간</p>
+                      <p className="text-sm font-medium text-slate-900">
+                        {execution.result.dwellSeconds != null ? `${execution.result.dwellSeconds}초` : '-'}
+                      </p>
+                    </div>
+                  </div>
+                ) : (
+                  <p className="text-sm text-slate-500">agent가 보낸 수행 결과가 없습니다.</p>
+                )}
+              </div>
+            )}
 
             {/* 퀴즈 정보 (quiz1, quiz2 타입일 때만) */}
             {(execution.type === 'quiz1' || execution.type === 'quiz2') && execution.quizzes && execution.quizzes.length > 0 && (

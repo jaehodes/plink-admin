@@ -60,7 +60,7 @@ export default function PcbangStatsClient() {
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div>
           <h1 className="text-2xl font-bold text-gray-900">PC방 통계</h1>
-          <p className="text-sm text-slate-500 mt-1">PC방 PC가 수행한 미션(퀴즈1·퀴즈2·길찾기) 수입니다.</p>
+          <p className="text-sm text-slate-500 mt-1">PC방 PC가 수행한 미션(퀴즈1·퀴즈2·길찾기·쇼핑) 수입니다.</p>
         </div>
         <DateRangeControls from={range.from} to={range.to} onChange={setRange} />
       </div>

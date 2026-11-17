@@ -26,6 +26,7 @@ const TYPE_BADGES: { key: 'all' | ExecutionType; label: string }[] = [
   { key: 'quiz1', label: '유입미션(퀴즈1)' },
   { key: 'quiz2', label: '유입미션(퀴즈2)' },
   { key: 'direction', label: '길찾기 미션' },
+  { key: 'shopping', label: '쇼핑' },
 ];
 
 type PeriodFilter = 'today' | 'yesterday' | 'week' | 'month' | 'custom';
@@ -43,10 +44,11 @@ const EXECUTION_TYPE_COLORS: Record<string, string> = {
   quiz1: 'bg-violet-100 text-violet-700',
   quiz2: 'bg-purple-100 text-purple-700',
   direction: 'bg-teal-100 text-teal-700',
+  shopping: 'bg-orange-100 text-orange-700',
 };
 
 function isValidType(type: string | null): type is 'all' | ExecutionType {
-  return type !== null && ['all', 'quiz1', 'quiz2', 'direction'].includes(type);
+  return type !== null && ['all', 'quiz1', 'quiz2', 'direction', 'shopping'].includes(type);
 }
 
 function decodeBase64(str: string): string {
@@ -364,10 +366,14 @@ export default function ExecutionsClient({ initialExecutions: executions, initia
                   </span>
                 </div>
 
-                {/* 플레이스 + 키워드 */}
+                {/* 플레이스(쇼핑은 상품) + 키워드. 쇼핑 FLOW1(랜딩)은 미션에 키워드가 없다 */}
                 <div className="flex items-center gap-2 mb-2">
-                  <p className="text-sm font-bold text-slate-800 truncate">{decodeBase64(execution.placeName)}</p>
-                  <span className="text-xs text-slate-400 bg-slate-50 px-2 py-0.5 rounded shrink-0">{decodeBase64(execution.keyword)}</span>
+                  <p className="text-sm font-bold text-slate-800 truncate">
+                    {decodeBase64(execution.type === 'shopping' ? execution.productName ?? '' : execution.placeName)}
+                  </p>
+                  <span className="text-xs text-slate-400 bg-slate-50 px-2 py-0.5 rounded shrink-0">
+                    {execution.type === 'shopping' && !execution.keyword ? '랜딩' : decodeBase64(execution.keyword)}
+                  </span>
                 </div>
 
                 {/* 메타 */}

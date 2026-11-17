@@ -47,7 +47,7 @@ export interface StatusStats {
 
 // ⑤ 타입별 수행
 export interface TypeRow {
-  key: string;             // quiz1, quiz2, direction
+  key: string;             // quiz1, quiz2, direction, shopping
   completed: number;       // 수행 완료
   target: number;          // 목표
   avgDuration: number;     // 평균 소요시간 (초)
@@ -90,6 +90,7 @@ export const TYPE_COLORS: Record<string, string> = {
   quiz1: '#27c499',
   quiz2: '#f6b73c',
   direction: '#b27bff',
+  shopping: '#f97316',
 };
 
 // 타입 라벨
@@ -97,6 +98,7 @@ export const TYPE_LABELS: Record<string, string> = {
   quiz1: '유입미션(퀴즈1)',
   quiz2: '유입미션(퀴즈2)',
   direction: '길찾기 미션',
+  shopping: '쇼핑',
 };
 
 // 상태 메타

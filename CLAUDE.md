@@ -32,7 +32,7 @@
 - 일부 문자열(이름·memo 등)은 plink-api와 base64로 주고받는다(`app/utils/base64Utils.ts`).
 - 환경 구분은 서버 환경변수 `APP_ENV`로 한다. `NEXT_PUBLIC_*`는 쓰지 않는다(`NEXT_PUBLIC_APP_VERSION`만 예외).
 - role(super/staff)별 권한 제한은 없다. 모든 관리자가 모든 화면을 본다.
-- PC방 정산 단가(PC방 10원, 파트너사·개발사 2.5원)는 `app/pcbang-settlement/PcbangSettlementClient.tsx` 상수다. 지급 근거로 쓰게 되면 DB로 옮긴다([../docs/pcbang.md](../docs/pcbang.md)).
+- PC방 정산 단가는 `app/pcbang-settlement/PcbangSettlementClient.tsx` 상수다(PC방 플레이스 10원·쇼핑 5원, 파트너사·개발사 각각 플레이스 2.5원·쇼핑 1원). 쇼핑 수는 plink-api `/pcbang-stats?type=pcbang`의 `shopping_count`다. 지급 근거로 쓰게 되면 DB로 옮긴다([../docs/pcbang.md](../docs/pcbang.md)).
 - 환경마다 컨테이너는 1개다. `proxy.ts`가 토큰 갱신 결과를 프로세스 메모리에서 공유한다.
 
 ## 남은 일
