@@ -95,7 +95,7 @@ export default function CountModal({ mode, user, onClose, onDone }: CountModalPr
     >
       <div>
         <label className={labelClass}>상품 유형</label>
-        <div className="grid grid-cols-3 gap-2">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
           {BALANCE_TYPES.map((t) => (
             <button
               key={t}

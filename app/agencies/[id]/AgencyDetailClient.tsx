@@ -84,7 +84,7 @@ export default function AgencyDetailClient({ detail, platformPrices }: AgencyDet
       </div>
 
       {/* 유형별 건수·단가 */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-4 gap-3">
         {BALANCE_TYPES.map((t) => {
           const count = user.availableCounts[t] ?? 0;
           const price = user.prices[t];

@@ -79,7 +79,7 @@ export default function PlatformPricesClient() {
         </button>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-4 gap-3">
         {BALANCE_TYPES.map((t) => (
           <div key={t} className="bg-white rounded-xl border border-slate-200 p-4">
             <p className="text-xs font-medium text-slate-500">{BALANCE_TYPE_LABELS[t]}</p>
