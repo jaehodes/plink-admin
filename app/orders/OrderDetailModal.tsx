@@ -58,6 +58,7 @@ const TYPE_STYLES: Record<string, { bg: string; text: string }> = {
   quiz1: { bg: 'bg-violet-50', text: 'text-violet-700' },
   quiz2: { bg: 'bg-purple-50', text: 'text-purple-700' },
   direction: { bg: 'bg-amber-50', text: 'text-amber-700' },
+  shopping: { bg: 'bg-orange-50', text: 'text-orange-700' },
 };
 
 interface OrderDetailModalProps {
@@ -262,7 +263,7 @@ export default function OrderDetailModal({ orderId, onClose, onSuccess }: OrderD
             <div className="flex items-start justify-between">
               <div className="flex items-center gap-4">
                 <input ref={thumbnailInputRef} type="file" accept="image/*" className="hidden" onChange={handleThumbnailChange} />
-                {order.thumbnail && !thumbnailError ? (
+                {order.shopping ? null : order.thumbnail && !thumbnailError ? (
                   /* eslint-disable-next-line @next/next/no-img-element */
                   <img
                     src={order.thumbnail}
@@ -277,10 +278,12 @@ export default function OrderDetailModal({ orderId, onClose, onSuccess }: OrderD
                 )}
                 <div>
                   <h2 className="text-lg font-bold text-white">
-                    {decodeBase64(order.placeName)}
+                    {decodeBase64(order.shopping ? order.shopping.productName : order.placeName)}
                   </h2>
                   <p className="text-slate-300 text-sm mt-0.5">
-                    {order.category ? decodeBase64(order.category) : '알수없음'}
+                    {order.shopping
+                      ? decodeBase64(order.shopping.sellerName)
+                      : order.category ? decodeBase64(order.category) : '알수없음'}
                   </p>
                 </div>
               </div>
@@ -393,7 +396,31 @@ export default function OrderDetailModal({ orderId, onClose, onSuccess }: OrderD
               </div>
             )}
 
+            {/* 쇼핑 발주: 상품 정보 (장소 대신) */}
+            {order.shopping && (
+              <div className="bg-slate-50 rounded-xl p-4 space-y-2 text-sm">
+                <p className="text-xs text-slate-400 font-medium">상품</p>
+                <div className="grid grid-cols-[6rem_1fr] gap-x-2 gap-y-1.5">
+                  <span className="text-slate-500">상품 MID</span><span className="text-slate-800">{order.shopping.productMid}</span>
+                  <span className="text-slate-500">상품유형</span>
+                  <span className="text-slate-800">{order.shopping.catalogMid ? `가격비교 (원부 MID ${order.shopping.catalogMid})` : '단독'}</span>
+                  <span className="text-slate-500">흐름</span>
+                  <span className="text-slate-800 break-all">{order.shopping.landingUrl ? `랜딩 · ${order.shopping.landingUrl}` : '통합검색'}</span>
+                  <span className="text-slate-500">메인키워드</span><span className="text-slate-800">{decodeBase64(order.shopping.mainKeyword)}</span>
+                  <span className="text-slate-500">상품 링크</span>
+                  <a href={order.shopping.productUrl} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline break-all">{order.shopping.productUrl}</a>
+                  <span className="text-slate-500">키워드 {order.shopping.keywordCount}개</span>
+                  <div className="flex flex-wrap gap-1">
+                    {(order.shopping.keywords ?? []).map((k, i) => (
+                      <span key={i} className="px-2 py-0.5 rounded-full bg-orange-50 text-xs text-orange-700 border border-orange-200">{decodeBase64(k)}</span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
+
             {/* 플레이스 URL */}
+            {!order.shopping && (
             <div className="bg-slate-50 rounded-xl p-4">
               <p className="text-xs text-slate-400 font-medium mb-2">플레이스 링크</p>
               <div className="flex flex-col gap-2">
@@ -421,6 +448,8 @@ export default function OrderDetailModal({ orderId, onClose, onSuccess }: OrderD
                 </a>
               </div>
             </div>
+
+            )}
 
             {/* 키워드 목록 */}
             {order.keywords && order.keywords.length > 0 && (
@@ -947,13 +976,15 @@ export default function OrderDetailModal({ orderId, onClose, onSuccess }: OrderD
           {/* 하단 고정 버튼 영역 */}
           <div className="flex-shrink-0 border-t border-slate-200 px-6 py-4 bg-slate-50">
             <div className="flex justify-between">
-              <button
-                onClick={() => thumbnailInputRef.current?.click()}
-                disabled={isUploadingThumbnail}
-                className="px-4 py-2 text-sm font-medium text-slate-600 bg-white hover:bg-slate-100 rounded-lg border border-slate-200 transition-colors disabled:opacity-50"
-              >
-                {isUploadingThumbnail ? '변경중...' : '썸네일 변경'}
-              </button>
+              {order.shopping ? <span /> : (
+                <button
+                  onClick={() => thumbnailInputRef.current?.click()}
+                  disabled={isUploadingThumbnail}
+                  className="px-4 py-2 text-sm font-medium text-slate-600 bg-white hover:bg-slate-100 rounded-lg border border-slate-200 transition-colors disabled:opacity-50"
+                >
+                  {isUploadingThumbnail ? '변경중...' : '썸네일 변경'}
+                </button>
+              )}
               {(order.status === 'pending' || order.status === 'progress') && (
                 <button
                   onClick={() => setShowCancelModal(true)}

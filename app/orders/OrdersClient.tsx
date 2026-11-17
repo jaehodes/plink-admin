@@ -78,6 +78,7 @@ const TYPE_BADGES: { key: 'all' | OrderType; label: string }[] = [
   { key: 'quiz1', label: '유입미션(퀴즈1)' },
   { key: 'quiz2', label: '유입미션(퀴즈2)' },
   { key: 'direction', label: '길찾기 미션' },
+  { key: 'shopping', label: '쇼핑' },
 ];
 
 // 유효한 상태값인지 확인
@@ -87,7 +88,7 @@ function isValidStatus(status: string | null): status is 'all' | OrderStatus {
 
 // 유효한 타입값인지 확인
 function isValidType(type: string | null): type is 'all' | OrderType {
-  return type !== null && ['all', 'quiz1', 'quiz2', 'direction'].includes(type);
+  return type !== null && ['all', 'quiz1', 'quiz2', 'direction', 'shopping'].includes(type);
 }
 
 interface OrdersClientProps {
@@ -434,15 +435,25 @@ export default function OrdersClient({ initialOrders: orders, initialTotal: tota
                     >
                       <td className="px-4 py-4">
                         <div className="flex items-center gap-3">
-                          <Thumbnail src={order.thumbnail} alt={decodeBase64(order.placeName)} />
-                          <div>
-                            <div className="font-medium text-gray-900 text-sm">
-                              {decodeBase64(order.placeName)}
+                          {order.shopping ? (
+                            // 쇼핑 발주는 장소가 없다. 상품명과 판매처를 보인다
+                            <div>
+                              <div className="font-medium text-gray-900 text-sm">{decodeBase64(order.shopping.productName)}</div>
+                              <div className="text-xs text-gray-500">{decodeBase64(order.shopping.sellerName)} · MID {order.shopping.productMid}</div>
                             </div>
-                            <div className="text-xs text-gray-500">
-                              {order.category ? decodeBase64(order.category) : '알수없음'}
-                            </div>
-                          </div>
+                          ) : (
+                            <>
+                              <Thumbnail src={order.thumbnail} alt={decodeBase64(order.placeName)} />
+                              <div>
+                                <div className="font-medium text-gray-900 text-sm">
+                                  {decodeBase64(order.placeName)}
+                                </div>
+                                <div className="text-xs text-gray-500">
+                                  {order.category ? decodeBase64(order.category) : '알수없음'}
+                                </div>
+                              </div>
+                            </>
+                          )}
                         </div>
                       </td>
                       <td className="px-4 py-4 text-sm text-gray-900">

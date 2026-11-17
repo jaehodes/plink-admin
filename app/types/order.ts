@@ -1,6 +1,6 @@
 // 발주 관련 타입 정의
 
-export type OrderType = 'quiz1' | 'quiz2' | 'direction';
+export type OrderType = 'quiz1' | 'quiz2' | 'direction' | 'shopping';
 export type OrderStatus = 'pending' | 'progress' | 'completed' | 'cancelled';
 
 export interface KeywordOrder {
@@ -39,6 +39,19 @@ export interface DeferredChanges {
   totalDailyCount?: number;  // 수정 예정 총 수량
 }
 
+/** 쇼핑 발주 상세 (type이 shopping일 때만). plink-api docs/order-app/orders-api.md "Shopping" */
+export interface ShoppingSummary {
+  mainKeyword: string; // Base64
+  productName: string; // Base64
+  sellerName: string;  // Base64
+  productMid: string;
+  catalogMid: string | null; // 있으면 가격비교
+  productUrl: string;
+  landingUrl: string | null; // 있으면 FLOW1(랜딩), 없으면 FLOW2(통합검색)
+  keywordCount: number;
+  keywords?: string[]; // Base64, 상세에만
+}
+
 export interface Order {
   id: string;
   type: OrderType;
@@ -64,6 +77,7 @@ export interface Order {
   deferredQuizzes?: Quiz[];           // 변경 예정 퀴즈 목록
   cancelledBy?: string;   // 취소 처리자
   cancelledAt?: string;   // 취소 일시 (ISO 8601)
+  shopping?: ShoppingSummary; // 쇼핑 발주만. 이때 장소 필드(placeName 등)는 비어 있다
 }
 
 export interface OrdersResponse {
@@ -77,6 +91,7 @@ export const ORDER_TYPE_LABELS: Record<OrderType, string> = {
   quiz1: '유입미션(퀴즈1)',
   quiz2: '유입미션(퀴즈2)',
   direction: '길찾기 미션',
+  shopping: '쇼핑',
 };
 
 export const ORDER_STATUS_LABELS: Record<OrderStatus, string> = {
