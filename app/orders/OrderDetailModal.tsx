@@ -409,7 +409,7 @@ export default function OrderDetailModal({ orderId, onClose, onSuccess }: OrderD
                   <span className="text-slate-800">{order.shopping.catalogMid ? `가격비교 (원부 MID ${order.shopping.catalogMid})` : '단독'}</span>
                   <span className="text-slate-500">흐름</span>
                   <span className="text-slate-800 break-all">{order.shopping.landingUrl ? `랜딩 · ${order.shopping.landingUrl}` : '통합검색'}</span>
-                  <span className="text-slate-500">메인키워드</span><span className="text-slate-800">{decodeBase64(order.shopping.mainKeyword)}</span>
+                  <span className="text-slate-500">메인키워드</span><span className="text-slate-800">{order.shopping.mainKeyword ? decodeBase64(order.shopping.mainKeyword) : '-'}</span>
                   <span className="text-slate-500">상품 링크</span>
                   <a href={order.shopping.productUrl} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline break-all">{order.shopping.productUrl}</a>
                   <span className="text-slate-500">키워드 {order.shopping.keywordCount}개</span>

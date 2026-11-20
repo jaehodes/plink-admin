@@ -41,7 +41,7 @@ export interface DeferredChanges {
 
 /** 쇼핑 발주 상세 (type이 shopping일 때만). plink-api docs/order-app/orders-api.md "Shopping" */
 export interface ShoppingSummary {
-  mainKeyword: string; // Base64
+  mainKeyword: string | null; // Base64. 선택 항목이라 없으면 null
   productName: string; // Base64
   sellerName: string;  // Base64
   productMid: string;
